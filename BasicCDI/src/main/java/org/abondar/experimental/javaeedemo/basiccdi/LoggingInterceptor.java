@@ -1,6 +1,5 @@
 package org.abondar.experimental.javaeedemo.basiccdi;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.interceptor.AroundConstruct;
 import javax.interceptor.AroundInvoke;
@@ -12,7 +11,6 @@ import java.util.logging.Logger;
 
 @Interceptor
 @Loggable
-//@Dependent
 public class LoggingInterceptor {
 
     @Inject

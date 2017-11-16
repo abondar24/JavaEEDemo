@@ -16,3 +16,11 @@ Each maven module covers different part of J2EE
 ```yaml
  Build: mvn clean install
 ```
+
+- JPA Demo: basic JPA usage
+
+```yaml
+ Build: mvn clean install
+ Run: exec:java
+```
+You need to setup a database with name and credentials from persistence.xml file

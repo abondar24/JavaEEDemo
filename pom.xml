@@ -11,6 +11,7 @@
     <modules>
         <module>BasicCDI</module>
         <module>BeanValidatation</module>
+        <module>JPADemo</module>
     </modules>
 
 
