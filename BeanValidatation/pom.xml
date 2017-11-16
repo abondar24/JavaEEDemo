@@ -11,5 +11,34 @@
 
     <artifactId>BeanValidatation</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.5.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>3.0.0</version>
+        </dependency>
 
+    </dependencies>
+
+    <build>
+    <plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.7.0</version>
+        <configuration>
+            <jdkToolchain>
+                <version>[1.8,9)</version>
+            </jdkToolchain>
+            <source>1.9</source>
+            <target>1.9</target>
+        </configuration>
+    </plugin>
+    </plugins>
+    </build>
 </project>
