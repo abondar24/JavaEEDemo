@@ -9,9 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>JPADemo</artifactId>
-
-
+    <artifactId>ORMDemo</artifactId>
     <build>
     <plugins>
         <plugin>
@@ -26,23 +24,7 @@
                 <target>1.9</target>
             </configuration>
         </plugin>
-
-
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>java</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <mainClass>org.abondar.experimental.javaeedemo.jpademo.Main</mainClass>
-            </configuration>
-        </plugin>
-
     </plugins>
-    </build>
+</build>
+
 </project>
