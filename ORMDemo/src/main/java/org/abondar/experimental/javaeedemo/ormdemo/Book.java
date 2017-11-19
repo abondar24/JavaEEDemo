@@ -2,47 +2,65 @@ package org.abondar.experimental.javaeedemo.ormdemo;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "book")
-public class Book {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+@NamedQueries({
+        @NamedQuery(name="findAllBooks", query = "SELECT b FROM Book b"),
+        @NamedQuery(name = "findBookCars",query = "SELECT b FROM Book b WHERE b.title ='Cars'")
+})
+@AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "book_id")),
+        @AttributeOverride(name = "title", column = @Column(name = "book_title")),
+        @AttributeOverride(name = "description", column = @Column(name = "book_description"))
+})
+public class Book extends Item {
 
     @NotNull
-    @Column(name="book_title",nullable = false,updatable = false)
-    private String title;
-
-    private Float price;
-
-    @Size(min = 10,max=2000)
-    @Column(length = 2000)
-    private String description;
-
     private String number;
 
     @Column(name = "num_pages",nullable = false)
     private Integer numberOfPages;
 
+    private String publisher;
+
     private Boolean illustrations;
+
+    @ElementCollection(fetch=FetchType.LAZY)
+    @CollectionTable(name="tag")
+    @Column(name="value")
+    private List<String> tags = new ArrayList<>();
 
     public Book(){}
 
     public Book(String title, Float price, String description) {
-        this.title = title;
-        this.price = price;
-        this.description = description;
+
+        super(title,price,description);
+
     }
 
     public Book(String title, Float price,String description, String number, Integer numberOfPages, Boolean illustrations) {
-        this.title = title;
-        this.price = price;
-        this.description = description;
+        super(title,price,description);
         this.number = number;
         this.numberOfPages = numberOfPages;
+        this.illustrations = illustrations;
+    }
+
+    public Book(String title, Float price,String description, String number, Integer numberOfPages, Boolean illustrations, List<String> tags) {
+        super(title,price,description);
+        this.number = number;
+        this.numberOfPages = numberOfPages;
+        this.illustrations = illustrations;
+        this.tags = tags;
+    }
+
+    public Book(String title, Float price, String description, String number, Integer numberOfPages, String publisher, Boolean illustrations) {
+        super(title, price, description);
+        this.number = number;
+        this.numberOfPages = numberOfPages;
+        this.publisher = publisher;
         this.illustrations = illustrations;
     }
 
@@ -102,16 +120,30 @@ public class Book {
         this.illustrations = illustrations;
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", number='" + number + '\'' +
+                "number='" + number + '\'' +
                 ", numberOfPages=" + numberOfPages +
+                ", publisher='" + publisher + '\'' +
                 ", illustrations=" + illustrations +
+                ", tags=" + tags +
                 '}';
     }
 }

@@ -17,7 +17,7 @@ Each maven module covers different part of J2EE
  Build: mvn clean install
 ```
 
-- JPA Demo: basic JPA usage
+- ORM Demo: JPA usage 
 
 ```yaml
  Build: mvn clean install

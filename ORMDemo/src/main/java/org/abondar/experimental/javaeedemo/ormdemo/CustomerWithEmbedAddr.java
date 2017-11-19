@@ -1,16 +1,14 @@
 package org.abondar.experimental.javaeedemo.ormdemo;
 
-
 import javax.persistence.*;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Entity
-@Table(name="customer")
+@Table(name="customer_emb")
 @Access(AccessType.FIELD)
-public class Customer {
+public class CustomerWithEmbedAddr {
 
     @Id
     @GeneratedValue
@@ -39,13 +37,13 @@ public class Customer {
     @Transient
     private Integer age;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="addr_fk",nullable = false)
-    private Address address;
 
-    public Customer(){}
+    @Embedded
+    private AddressEmbed address;
 
-    public Customer(String firstName, String lastName, String email, String phoneNumber,Date dateOfBirth, Date creationDate) {
+    public CustomerWithEmbedAddr(){}
+
+    public CustomerWithEmbedAddr(String firstName, String lastName, String email, String phoneNumber, Date dateOfBirth, Date creationDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -86,9 +84,6 @@ public class Customer {
         this.email = email;
     }
 
-    //length of 15 is overwritten by 50 because of entity annotation
-    @Access(AccessType.PROPERTY)
-    @Column(name="phone_number",length = 50)
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -121,17 +116,17 @@ public class Customer {
         this.age = age;
     }
 
-    public Address getAddress() {
+    public AddressEmbed getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressEmbed address) {
         this.address = address;
     }
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "CustomerWithEmbedAddr{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

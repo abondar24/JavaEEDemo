@@ -1,4 +1,4 @@
-package org.abondar.experimental.javaeedemo.jpademo;
+package org.abondar.experimental.javaeedemo.ormdemo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,9 +17,11 @@ public class Main {
         tx.begin();
         em.persist(book);
         em.createNamedQuery("findAllBooks", Book.class).getResultList().forEach(System.out::println);
+        book = em.createNamedQuery("findBookCars", Book.class).getSingleResult();
         tx.commit();
         em.close();
         emf.close();
+        System.out.println(book);
 
     }
 }
