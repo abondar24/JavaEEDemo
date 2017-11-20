@@ -1,19 +1,28 @@
-package org.abondar.experimental.javaeedemo.ormdemo;
+package org.abondar.experimental.javaeedemo.ormdemo.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
+@Entity
+@Table(name = "address")
+@SecondaryTables({
+        @SecondaryTable(name="city"),
+        @SecondaryTable(name="country")
+})
+public class Address {
 
-@Embeddable
-@Access(AccessType.PROPERTY)
-public class AddressEmbed {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @NotNull
     private String street;
 
     private String state;
 
+    @NotNull
     private  String city;
 
-    public AddressEmbed( String street, String state, String city,  String zipcode, String country) {
+    public Address( String street, String state, String city,  String zipcode, String country) {
         this.street = street;
         this.state = state;
         this.city = city;
@@ -21,14 +30,22 @@ public class AddressEmbed {
         this.country = country;
     }
 
-    public AddressEmbed(){}
-
+    @NotNull
     private String zipcode;
 
     private String country;
 
+    public Address(){}
 
-    @Column(nullable = false)
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getStreet() {
         return street;
     }
@@ -37,7 +54,6 @@ public class AddressEmbed {
         this.street = street;
     }
 
-    @Column(length = 3)
     public String getState() {
         return state;
     }
@@ -46,7 +62,6 @@ public class AddressEmbed {
         this.state = state;
     }
 
-    @Column(nullable = false, length = 50)
     public String getCity() {
         return city;
     }
@@ -55,7 +70,6 @@ public class AddressEmbed {
         this.city = city;
     }
 
-    @Column(name = "zip_code", length = 10)
     public String getZipcode() {
         return zipcode;
     }
@@ -74,8 +88,9 @@ public class AddressEmbed {
 
     @Override
     public String toString() {
-        return "AddressEmbed{" +
-                "street='" + street + '\'' +
+        return "Address{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
                 ", state='" + state + '\'' +
                 ", city='" + city + '\'' +
                 ", zipcode='" + zipcode + '\'' +

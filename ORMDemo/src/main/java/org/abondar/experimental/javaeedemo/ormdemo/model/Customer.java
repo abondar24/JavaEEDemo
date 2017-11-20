@@ -1,4 +1,4 @@
-package org.abondar.experimental.javaeedemo.ormdemo;
+package org.abondar.experimental.javaeedemo.ormdemo.model;
 
 
 import javax.persistence.*;
@@ -30,7 +30,7 @@ public class Customer {
     private String phoneNumber;
 
     @Past
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -39,7 +39,7 @@ public class Customer {
     @Transient
     private Integer age;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY,orphanRemoval = true,cascade = {CascadeType.PERSIST})
     @JoinColumn(name="addr_fk",nullable = false)
     private Address address;
 

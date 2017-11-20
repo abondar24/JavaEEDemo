@@ -1,4 +1,4 @@
-package org.abondar.experimental.javaeedemo.ormdemo;
+package org.abondar.experimental.javaeedemo.ormdemo.model;
 
 import javax.persistence.*;
 import java.util.Arrays;

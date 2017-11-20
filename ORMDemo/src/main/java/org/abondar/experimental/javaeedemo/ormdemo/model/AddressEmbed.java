@@ -1,28 +1,19 @@
-package org.abondar.experimental.javaeedemo.ormdemo;
+package org.abondar.experimental.javaeedemo.ormdemo.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "address")
-@SecondaryTables({
-        @SecondaryTable(name="city"),
-        @SecondaryTable(name="country")
-})
-public class Address {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @NotNull
+@Embeddable
+@Access(AccessType.PROPERTY)
+public class AddressEmbed {
+
     private String street;
 
     private String state;
 
-    @NotNull
     private  String city;
 
-    public Address( String street, String state, String city,  String zipcode, String country) {
+    public AddressEmbed( String street, String state, String city,  String zipcode, String country) {
         this.street = street;
         this.state = state;
         this.city = city;
@@ -30,22 +21,14 @@ public class Address {
         this.country = country;
     }
 
-    @NotNull
+    public AddressEmbed(){}
+
     private String zipcode;
 
     private String country;
 
-    public Address(){}
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    @Column(nullable = false)
     public String getStreet() {
         return street;
     }
@@ -54,6 +37,7 @@ public class Address {
         this.street = street;
     }
 
+    @Column(length = 3)
     public String getState() {
         return state;
     }
@@ -62,6 +46,7 @@ public class Address {
         this.state = state;
     }
 
+    @Column(nullable = false, length = 50)
     public String getCity() {
         return city;
     }
@@ -70,6 +55,7 @@ public class Address {
         this.city = city;
     }
 
+    @Column(name = "zip_code", length = 10)
     public String getZipcode() {
         return zipcode;
     }
@@ -88,9 +74,8 @@ public class Address {
 
     @Override
     public String toString() {
-        return "Address{" +
-                "id=" + id +
-                ", street='" + street + '\'' +
+        return "AddressEmbed{" +
+                "street='" + street + '\'' +
                 ", state='" + state + '\'' +
                 ", city='" + city + '\'' +
                 ", zipcode='" + zipcode + '\'' +

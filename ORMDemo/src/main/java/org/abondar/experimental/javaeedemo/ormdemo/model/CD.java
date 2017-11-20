@@ -1,4 +1,4 @@
-package org.abondar.experimental.javaeedemo.ormdemo;
+package org.abondar.experimental.javaeedemo.ormdemo.model;
 
 import javax.persistence.*;
 import java.util.*;
@@ -10,7 +10,7 @@ import java.util.*;
         @AttributeOverride(name = "title", column = @Column(name = "cd_title")),
         @AttributeOverride(name = "description", column = @Column(name = "cd_description"))
 })
-public class CD  extends Item{
+public class CD  extends Item {
 
 
     private String musicCompany;

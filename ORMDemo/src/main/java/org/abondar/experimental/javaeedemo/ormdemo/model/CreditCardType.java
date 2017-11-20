@@ -1,4 +1,4 @@
-package org.abondar.experimental.javaeedemo.ormdemo;
+package org.abondar.experimental.javaeedemo.ormdemo.model;
 
 public enum CreditCardType {
     VISA,

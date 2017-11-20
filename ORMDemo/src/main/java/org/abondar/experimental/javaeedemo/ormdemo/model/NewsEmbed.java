@@ -1,4 +1,4 @@
-package org.abondar.experimental.javaeedemo.ormdemo;
+package org.abondar.experimental.javaeedemo.ormdemo.model;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;

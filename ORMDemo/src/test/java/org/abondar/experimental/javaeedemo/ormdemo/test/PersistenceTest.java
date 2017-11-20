@@ -1,6 +1,6 @@
 package org.abondar.experimental.javaeedemo.ormdemo.test;
 
-import org.abondar.experimental.javaeedemo.ormdemo.*;
+import org.abondar.experimental.javaeedemo.ormdemo.model.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
