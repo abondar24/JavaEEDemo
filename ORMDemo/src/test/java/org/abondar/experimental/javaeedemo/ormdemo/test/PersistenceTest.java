@@ -5,10 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import javax.validation.*;
 import java.sql.SQLException;
 import java.util.*;
@@ -60,21 +57,20 @@ public class PersistenceTest {
         em.persist(book);
         tx.commit();
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
-        assertEquals(1,violations.size());
+        assertEquals(1, violations.size());
     }
 
     @Test
-    public void createBookWithTagsTest(){
-        List<String> tags = Arrays.asList("cars","racing","history");
-        Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true,tags);
+    public void createBookWithTagsTest() {
+        List<String> tags = Arrays.asList("cars", "racing", "history");
+        Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true, tags);
         tx.begin();
         em.persist(book);
         tx.commit();
 
         assertNotNull("ID should not be null", book.getId());
-        assertEquals(3,book.getTags().size());
+        assertEquals(3, book.getTags().size());
     }
-
 
 
     @Test
@@ -87,7 +83,7 @@ public class PersistenceTest {
     }
 
     @Test
-    public void createCustomerTest(){
+    public void createCustomerTest() {
         Customer customer = new Customer("John", "Smith", "jsmith@gmail.com",
                 "1234565", new Date(), new Date());
         Address address = new Address("111 Salo Way", "Leningrad", "VA", "ZIPCODE", "USA");
@@ -97,6 +93,11 @@ public class PersistenceTest {
         em.persist(customer);
         tx.commit();
         assertNotNull("ID should not be null", customer.getId());
+
+
+        tx.begin();
+        em.remove(customer);
+        tx.commit();
     }
 
     @Test
@@ -112,8 +113,12 @@ public class PersistenceTest {
         tx.commit();
 
 
-
         assertNotNull("ID should not be null", customer.getId());
+
+
+        tx.begin();
+        em.remove(customer);
+        tx.commit();
     }
 
 
@@ -135,7 +140,48 @@ public class PersistenceTest {
 
         customer = em.find(Customer.class, customer.getId());
         assertNotNull("Address should not be null", customer.getAddress());
+
+        tx.begin();
+        em.remove(customer);
+        tx.commit();
+
+
     }
+
+    @Test
+    public void findAllCustomersWithNativeQueryTest() throws Exception {
+
+        Customer customer01 = new Customer("Antony", "Balla", "tballa@mail.com",
+                "49343543534", new Date(), new Date());
+        Address address01 = new Address("Ritherdon Rd", "", "London", "8QE", "UK");
+        customer01.setAddress(address01);
+
+        Customer customer02 = new Customer("Vincent", "Johnson", "vj@mail.com",
+                "1111111", new Date(), new Date());
+        Address address02 = new Address("Ritherdon Rd", "", "London", "8QE", "UK");
+        customer02.setAddress(address02);
+
+        Customer customer03 = new Customer("Sebastian", "Twenty", "seb@yamail.com",
+                "43243242342", new Date(), new Date());
+        Address address03 = new Address("Inacio Alfama", "", "Lisbon", "A54", "PT");
+        customer03.setAddress(address03);
+
+        // Persist the object
+        tx.begin();
+        em.persist(customer01);
+        em.persist(customer02);
+        em.persist(customer03);
+
+        tx.commit();
+
+        Query query = em.createNativeQuery("SELECT * FROM Customer", Customer.class);
+        List<Customer> customers = query.getResultList();
+        customers.forEach(System.out::println);
+        assertEquals(3, customers.size());
+
+    }
+
+
 
     @Test
     public void createNewsEmbedTest() {
@@ -160,11 +206,10 @@ public class PersistenceTest {
     }
 
 
-
     @Test
     public void createNewsWithCommentsTest() throws Exception {
 
-        News news = new News("Jackson is Dead","EN","Death of Michael Jackson");
+        News news = new News("Jackson is Dead", "EN", "Death of Michael Jackson");
         Comment comment = new Comment("gonzo", "Third comment", 1, "2009-07-03");
         news.addComment(comment);
 
@@ -187,7 +232,7 @@ public class PersistenceTest {
         tx.commit();
 
         tx.begin();
-        news = em.find(News.class, new NewsId(news.getTitle(),news.getLanguage()));
+        news = em.find(News.class, new NewsId(news.getTitle(), news.getLanguage()));
 
         // Without the refresh the test will not work
         // The OrderBy annotation specifies the ordering of the elements of a collection valued association at the point when the association is retrieved."
@@ -217,31 +262,31 @@ public class PersistenceTest {
     }
 
     @Test
-    public void createCreditCardTest(){
-        CreditCard creditCard = new CreditCard("12345657657","10/12/2020",123,CreditCardType.MASTERCARD);
+    public void createCreditCardTest() {
+        CreditCard creditCard = new CreditCard("12345657657", "10/12/2020", 123, CreditCardType.MASTERCARD);
         tx.begin();
         em.persist(creditCard);
         tx.commit();
         assertNotNull("ID should not be null", creditCard.getNumber());
 
-        creditCard = em.find(CreditCard.class,"12345657657" );
-        assertEquals("MASTERCARD",creditCard.getCreditCardType().name());
+        creditCard = em.find(CreditCard.class, "12345657657");
+        assertEquals("MASTERCARD", creditCard.getCreditCardType().name());
     }
 
     @Test
-    public void createCDtest(){
+    public void createCDtest() {
         HashMap<Integer, String> tracks = new HashMap<>();
         tracks.put(1, "Mutter");
         tracks.put(2, "Sonne");
         tracks.put(3, "Ich Will");
-        CD cd = new CD("Mutter",12.0f,"Top-selling Rammstein album",tracks);
+        CD cd = new CD("Mutter", 12.0f, "Top-selling Rammstein album", tracks);
 
         tx.begin();
         em.persist(cd);
         tx.commit();
 
         assertNotNull("ID should not be null", cd.getId());
-        assertEquals(3,cd.getTracks().size());
+        assertEquals(3, cd.getTracks().size());
 
     }
 
@@ -252,7 +297,7 @@ public class PersistenceTest {
         Order order = new Order();
         OrderLine line1 = new OrderLine("Mutter", 12d, 1);
         OrderLine line2 = new OrderLine("Rosenrot", 14.5d, 2);
-        List<OrderLine> orderLines = Arrays.asList(line1,line2);
+        List<OrderLine> orderLines = Arrays.asList(line1, line2);
         order.setOrderLines(orderLines);
 
         tx.begin();
@@ -279,7 +324,7 @@ public class PersistenceTest {
         Artist richard = new Artist("Richard", "Kruspe");
         Artist oliver = new Artist("Oliver", "Riedel");
         Artist flake = new Artist("Christian", "Lorenz");
-        Artist doom = new Artist("Christian","Schneider");
+        Artist doom = new Artist("Christian", "Schneider");
 
         CD mutter = new CD("Mutter", 12.5F, "Released in 2001, best-selling studio album");
         CD rosenrot = new CD("Rosenrot", 18.5F, "Released in 2005 after Reise Reise");
@@ -342,9 +387,9 @@ public class PersistenceTest {
                 "Blue Note", 2, 87.45f, "Jazz");
 
         Book book01 = new Book("Cars", 21f, "Book of cars", "123-456-789",
-                 321,"Pinguin", false);
+                321, "Pinguin", false);
         Book book02 = new Book("F1 history", 37.5f, "F1 from 1950 to 2017", "0-553-29949-2 ",
-                 264,"Foundation", true);
+                264, "Foundation", true);
 
         tx.begin();
         em.persist(cd01);

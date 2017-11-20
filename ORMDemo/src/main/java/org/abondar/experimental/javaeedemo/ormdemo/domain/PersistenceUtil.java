@@ -1,13 +1,12 @@
-package org.abondar.experimental.javaeedemo.ormdemo;
+package org.abondar.experimental.javaeedemo.ormdemo.domain;
 
 import org.abondar.experimental.javaeedemo.ormdemo.model.Address;
 import org.abondar.experimental.javaeedemo.ormdemo.model.Book;
 import org.abondar.experimental.javaeedemo.ormdemo.model.Customer;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 public class PersistenceUtil {
 
@@ -160,6 +159,63 @@ public class PersistenceUtil {
         System.out.println("Added customer: " + customer);
         em.close();
     }
+
+
+    public static void addAndFindCustomersWithDynamicQueries(EntityManagerFactory emf){
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        Customer customer01 = new Customer("Antony", "Balla", "tballa@mail.com",
+                "49343543534", new Date(), new Date());
+        Address address01 = new Address("Ritherdon Rd", "", "London", "8QE", "UK");
+        customer01.setAddress(address01);
+
+        Customer customer02 = new Customer("Vincent", "Johnson", "vj@mail.com",
+                "1111111", new Date(), new Date());
+        Address address02 = new Address("Ritherdon Rd", "","London", "8QE", "UK");
+        customer02.setAddress(address02);
+
+        Customer customer03 = new Customer("Sebastian", "Twenty", "seb@yamail.com",
+                "43243242342", new Date(), new Date());
+        Address address03 = new Address("Inacio Alfama", "","Lisbon", "A54", "PT");
+        customer03.setAddress(address03);
+
+        tx.begin();
+        em.persist(customer01);
+        em.persist(customer02);
+        em.persist(customer03);
+
+        tx.commit();
+
+        Query query = em.createQuery("select c from Customer c");
+        List<Customer> customers = query.getResultList();
+        System.out.println("Found customers");
+        customers.forEach(System.out::println);
+
+
+        query = em.createQuery("select c from Customer c where c.firstName='Vincent'");
+        System.out.println("Vincent :"+query.getSingleResult());
+
+
+        query = em.createQuery("select c from Customer c where c.firstName =:fname");
+        query.setParameter("fname", "Sebastian");
+        System.out.println("Sebastian: "+query.getSingleResult());
+
+
+        TypedQuery<Customer> typedQuery = em.createQuery("select c from Customer c", Customer.class);
+        customers = typedQuery.getResultList();
+        System.out.println("Found customers by typed query");
+        customers.forEach(System.out::println);
+
+
+        typedQuery = em.createQuery("select c from Customer c  where c.firstName =:fname", Customer.class);
+        typedQuery.setParameter("fname", "Antony");
+        typedQuery.setMaxResults(1);
+        System.out.println("Antony: "+query.getSingleResult());
+
+        em.close();
+    }
+
+
 
 
 }

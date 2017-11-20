@@ -1,5 +1,7 @@
 package org.abondar.experimental.javaeedemo.ormdemo;
 
+import org.abondar.experimental.javaeedemo.ormdemo.domain.PersistenceUtil;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -17,6 +19,7 @@ public class Main {
         PersistenceUtil.addAndDetachCustomer(emf);
         PersistenceUtil.updateCustomer(emf,customerId);
         PersistenceUtil.addCustomerByCascade(emf);
+        PersistenceUtil.addAndFindCustomersWithDynamicQueries(emf);
         emf.close();
     }
 }
