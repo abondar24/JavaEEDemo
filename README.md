@@ -17,7 +17,7 @@ Each maven module covers different part of J2EE
  Build: mvn clean install
 ```
 
-- ORM Demo: JPA usage 
+- ORM Demo: JPA and Hibernate usage including(persistence,quering,criteria api,caching,locks and listener usage) 
 
 ```yaml
  Build: mvn clean install
