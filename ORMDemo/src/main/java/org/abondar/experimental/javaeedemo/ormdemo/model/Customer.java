@@ -1,6 +1,8 @@
 package org.abondar.experimental.javaeedemo.ormdemo.model;
 
 
+import org.abondar.experimental.javaeedemo.ormdemo.listeners.AgeCalculationListener;
+import org.abondar.experimental.javaeedemo.ormdemo.listeners.DataValidationListener;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
+@EntityListeners({DataValidationListener.class, AgeCalculationListener.class})
 @Entity
 @Table(name="customer")
 @Access(AccessType.FIELD)

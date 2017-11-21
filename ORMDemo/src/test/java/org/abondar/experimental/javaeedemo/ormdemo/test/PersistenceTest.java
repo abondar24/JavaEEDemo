@@ -262,7 +262,7 @@ public class PersistenceTest {
     }
 
     @Test
-    public void checkCustomerIsCacheable() {
+    public void customerIsCacheableTest() {
         Customer customer = new Customer("Vincent", "Johnson", "vj@mail.com",
                 "1111111", new Date(), new Date());
         Address address = new Address("Ritherdon Rd", "", "London", "8QE", "UK");
@@ -289,6 +289,54 @@ public class PersistenceTest {
         tx.commit();
     }
 
+
+    @Test
+    public void calculateCustomerAgeTest(){
+
+        int expectedAge = 33;
+
+        Calendar birth = new GregorianCalendar();
+        birth.roll(Calendar.YEAR,expectedAge*(-1));
+        birth.roll(Calendar.DAY_OF_YEAR,-1);
+
+        Customer customer = new Customer("Vincent", "Johnson", "vj@mail.com",
+                "1111111", birth.getTime(), new Date());
+        Address address = new Address("Ritherdon Rd", "", "London", "8QE", "UK");
+        customer.setAddress(address);
+
+        tx.begin();
+        em.persist(customer);
+        tx.commit();
+        assertEquals(Integer.valueOf(expectedAge), customer.getAge());
+
+        tx.begin();
+        em.remove(customer);
+        tx.commit();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void notValidateNullFirstNameTest(){
+        Customer customer = new Customer(null, "Johnson", "vj@mail.com",
+                "1111111", new Date(), new Date());
+        Address address = new Address("Ritherdon Rd", "", "London", "8QE", "UK");
+        customer.setAddress(address);
+
+        tx.begin();
+        em.persist(customer);
+        tx.commit();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void notValidateNullLastNameTest(){
+        Customer customer = new Customer("Brendon", null, "vj@mail.com",
+                "1111111", new Date(), new Date());
+        Address address = new Address("Ritherdon Rd", "", "London", "8QE", "UK");
+        customer.setAddress(address);
+
+        tx.begin();
+        em.persist(customer);
+        tx.commit();
+    }
 
     @Test
     public void createNewsEmbedTest() {
