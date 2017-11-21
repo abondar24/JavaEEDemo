@@ -216,6 +216,17 @@ public class PersistenceUtil {
     }
 
 
+//    public static void runBookStoredProcedure(EntityManagerFactory emf){
+//        EntityManager em = emf.createEntityManager();
+//        StoredProcedureQuery query = em.createNamedStoredProcedureQuery("archiveOldBooks");
+//        query.registerStoredProcedureParameter("archiveDate",Date.class,ParameterMode.IN);
+//        query.registerStoredProcedureParameter("maxBookArchived",Integer.class,ParameterMode.IN);
+//
+//        query.setParameter("archiveDate",new Date());
+//        query.setParameter("maxBookArchived",1000);
+//        query.execute();
+//    }
+
 
 
 }

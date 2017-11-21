@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+
+    <defaultCache maxElementsInMemory="100" eternal="false" timeToIdleSeconds="120" timeToLiveSeconds="200" />
+
+    <cache
+            name="Customer"
+            maxElementsInMemory="100000"
+            overflowToDisk="false"
+            memoryStoreEvictionPolicy="LFU"
+            statistics="true"
+            timeToIdleSeconds="5"
+            timeToLiveSeconds="200"
+    />
+
+</ehcache>

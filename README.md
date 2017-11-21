@@ -24,3 +24,4 @@ Each maven module covers different part of J2EE
  Run: exec:java
 ```
 You need to setup a database with name and credentials from persistence.xml file
+Some parts of demo are run from main, some parts are stored as unit tests

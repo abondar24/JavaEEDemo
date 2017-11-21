@@ -69,6 +69,7 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>5.2.12.Final</version>
         </dependency>
+
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>

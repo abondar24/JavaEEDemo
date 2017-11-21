@@ -1,55 +1,71 @@
 package org.abondar.experimental.javaeedemo.ormdemo.model;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "book")
 @NamedQueries({
-        @NamedQuery(name="findAllBooks", query = "SELECT b FROM Book b"),
-        @NamedQuery(name = "findBookCars",query = "SELECT b FROM Book b WHERE b.title ='Cars'")
+        @NamedQuery(name = "findAllBooks", query = "SELECT b FROM Book b"),
+        @NamedQuery(name = "findBookCars", query = "SELECT b FROM Book b WHERE b.title ='Cars'")
 })
+@NamedStoredProcedureQuery(name = "archiveOldBooks", procedureName = "archive_books",
+        parameters = {
+             @StoredProcedureParameter(name="archiveDate",mode=ParameterMode.IN,type=Date.class),
+             @StoredProcedureParameter(name="warehouse",mode=ParameterMode.IN,type=String.class),
+
+        },
+        resultClasses = Book.class)
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "book_id")),
         @AttributeOverride(name = "title", column = @Column(name = "book_title")),
         @AttributeOverride(name = "description", column = @Column(name = "book_description"))
 })
+@Cacheable(false)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL, region="Book")
 public class Book extends Item {
 
     @NotNull
     private String number;
 
-    @Column(name = "num_pages",nullable = false)
+    @Column(name = "num_pages", nullable = false)
     private Integer numberOfPages;
 
     private String publisher;
 
     private Boolean illustrations;
 
-    @ElementCollection(fetch=FetchType.LAZY)
-    @CollectionTable(name="tag")
-    @Column(name="value")
+    @Version
+    private Integer version;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "tag")
+    @Column(name = "value")
     private List<String> tags = new ArrayList<>();
 
-    public Book(){}
+    public Book() {
+    }
 
     public Book(String title, Float price, String description) {
 
-        super(title,price,description);
+        super(title, price, description);
 
     }
 
-    public Book(String title, Float price,String description, String number, Integer numberOfPages, Boolean illustrations) {
-        super(title,price,description);
+    public Book(String title, Float price, String description, String number, Integer numberOfPages, Boolean illustrations) {
+        super(title, price, description);
         this.number = number;
         this.numberOfPages = numberOfPages;
         this.illustrations = illustrations;
     }
 
-    public Book(String title, Float price,String description, String number, Integer numberOfPages, Boolean illustrations, List<String> tags) {
-        super(title,price,description);
+    public Book(String title, Float price, String description, String number, Integer numberOfPages, Boolean illustrations, List<String> tags) {
+        super(title, price, description);
         this.number = number;
         this.numberOfPages = numberOfPages;
         this.illustrations = illustrations;
@@ -134,6 +150,14 @@ public class Book extends Item {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override

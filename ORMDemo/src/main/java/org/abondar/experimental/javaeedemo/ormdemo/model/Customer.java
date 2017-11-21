@@ -1,6 +1,8 @@
 package org.abondar.experimental.javaeedemo.ormdemo.model;
 
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 
 import javax.validation.constraints.NotNull;
@@ -10,6 +12,9 @@ import java.util.Date;
 @Entity
 @Table(name="customer")
 @Access(AccessType.FIELD)
+@Cacheable
+//we can use either cacheable from javax.persistence or cache by hibernate
+//@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="Customer")
 public class Customer {
 
     @Id

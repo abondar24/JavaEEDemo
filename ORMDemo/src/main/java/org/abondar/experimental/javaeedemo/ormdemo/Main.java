@@ -20,6 +20,7 @@ public class Main {
         PersistenceUtil.updateCustomer(emf,customerId);
         PersistenceUtil.addCustomerByCascade(emf);
         PersistenceUtil.addAndFindCustomersWithDynamicQueries(emf);
+      //  PersistenceUtil.runBookStoredProcedure(emf);
         emf.close();
     }
 }

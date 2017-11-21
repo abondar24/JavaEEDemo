@@ -6,12 +6,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.validation.*;
 import java.sql.SQLException;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class PersistenceTest {
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("test_unit");
@@ -38,6 +40,9 @@ public class PersistenceTest {
         em.persist(book);
         tx.commit();
         assertNotNull("ID should not be null", book.getId());
+
+        book = em.createNamedQuery("findBookCars", Book.class).getSingleResult();
+        assertEquals("The book of cars",book.getDescription());
     }
 
 
@@ -74,6 +79,54 @@ public class PersistenceTest {
 
 
     @Test
+    public void bookIsNotCacheableTest() {
+        Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true);
+        tx.begin();
+        em.persist(book);
+        tx.commit();
+
+        Cache cache = emf.getCache();
+        assertFalse(cache.contains(Book.class, book.getId()));
+
+    }
+
+    @Test
+    public void createBookAndUpdateVersionTest(){
+        Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true);
+        tx.begin();
+        em.persist(book);
+        tx.commit();
+        assertNotNull("ID should not be null", book.getId());
+        assertEquals(Integer.valueOf(0),book.getVersion());
+
+        tx.begin();
+        book = em.find(Book.class,book.getId());
+        book.setDescription("Description");
+        tx.commit();
+        assertEquals(Integer.valueOf(1),book.getVersion());
+
+    }
+
+    @Test
+    public void createBookAndReadWithOptimisticLock(){
+        Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true);
+        tx.begin();
+        em.persist(book);
+        tx.commit();
+
+        assertNotNull("ID should not be null", book.getId());
+        assertEquals(Integer.valueOf(0),book.getVersion());
+
+        tx.begin();
+        book = em.find(Book.class,book.getId(),LockModeType.OPTIMISTIC_FORCE_INCREMENT);
+        book.setPrice(20.0f);
+        tx.commit();
+        assertEquals(Float.valueOf(20.0f),book.getPrice());
+
+
+    }
+
+    @Test
     public void createAddressTest() {
         Address address = new Address("111 Salo Way", "Leningrad", "VA", "ZIPCODE", "USA");
         tx.begin();
@@ -101,7 +154,7 @@ public class PersistenceTest {
     }
 
     @Test
-    public void createACustomerWithAnEmbeddedAddressTest() throws Exception {
+    public void createCustomerWithAnEmbeddedAddressTest() throws Exception {
 
         CustomerWithEmbedAddr customer = new CustomerWithEmbedAddr("John", "Smith",
                 "jsmith@gmail.com", "1234565", new Date(), new Date());
@@ -166,12 +219,10 @@ public class PersistenceTest {
         Address address03 = new Address("Inacio Alfama", "", "Lisbon", "A54", "PT");
         customer03.setAddress(address03);
 
-        // Persist the object
         tx.begin();
         em.persist(customer01);
         em.persist(customer02);
         em.persist(customer03);
-
         tx.commit();
 
         Query query = em.createNativeQuery("SELECT * FROM Customer", Customer.class);
@@ -179,8 +230,64 @@ public class PersistenceTest {
         customers.forEach(System.out::println);
         assertEquals(3, customers.size());
 
+        tx.begin();
+        em.remove(customer01);
+        em.remove(customer02);
+        em.remove(customer03);
+        tx.commit();
     }
 
+    @Test
+    public void findCustomerByCriteriaApi() {
+        Customer customer = new Customer("Vincent", "Johnson", "vj@mail.com",
+                "1111111", new Date(), new Date());
+        Address address = new Address("Ritherdon Rd", "", "London", "8QE", "UK");
+        customer.setAddress(address);
+
+
+        tx.begin();
+        em.persist(customer);
+        tx.commit();
+
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Customer> query = criteriaBuilder.createQuery(Customer.class);
+        Root<Customer> c = query.from(Customer.class);
+        query.select(c).where(criteriaBuilder.equal(c.get("firstName"), "Vincent"));
+
+        assertEquals("Vincent", em.createQuery(query).getSingleResult().getFirstName());
+
+        tx.begin();
+        em.remove(customer);
+        tx.commit();
+    }
+
+    @Test
+    public void checkCustomerIsCacheable() {
+        Customer customer = new Customer("Vincent", "Johnson", "vj@mail.com",
+                "1111111", new Date(), new Date());
+        Address address = new Address("Ritherdon Rd", "", "London", "8QE", "UK");
+        customer.setAddress(address);
+
+        tx.begin();
+        em.persist(customer);
+        tx.commit();
+
+        //need to refresh due to id gen
+        em.refresh(customer);
+        em.refresh(address);
+
+        Cache cache = emf.getCache();
+        System.out.println(cache.contains(Customer.class, customer.getId()));
+        assertTrue(cache.contains(Customer.class, customer.getId()));
+        assertTrue(cache.contains(Address.class, address.getId()));
+
+        cache.evict(Customer.class);
+        assertFalse(cache.contains(Customer.class, customer.getId()));
+
+        tx.begin();
+        em.remove(customer);
+        tx.commit();
+    }
 
 
     @Test
@@ -317,7 +424,7 @@ public class PersistenceTest {
 
 
     @Test
-    public void createDsAndArtists() throws Exception {
+    public void createCDsAndArtists() throws Exception {
 
         Artist till = new Artist("Till", "Lindemann");
         Artist paul = new Artist("Paul", "Landers");
@@ -402,6 +509,11 @@ public class PersistenceTest {
         assertNotNull("CD2 ID should not be null", cd02.getId());
         assertNotNull("Book1 ID should not be null", book01.getId());
         assertNotNull("Book2 ID should not be null", book02.getId());
+
+        tx.begin();
+        em.remove(book01);
+        em.remove(book02);
+        tx.commit();
     }
 
 
