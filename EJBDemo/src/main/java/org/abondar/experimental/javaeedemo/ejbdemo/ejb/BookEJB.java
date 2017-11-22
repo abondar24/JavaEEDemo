@@ -12,7 +12,7 @@ import java.util.List;
 @Stateless
 public class BookEJB {
 
-    @PersistenceContext(unitName = "test_unit")
+    @PersistenceContext(unitName = "demo_unit")
     private EntityManager em;
 
     public Book findBookById(Long id) {

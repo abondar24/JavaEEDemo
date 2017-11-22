@@ -3,6 +3,7 @@ package org.abondar.experimental.javaeedemo.ejbdemo.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "book")
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
         @AttributeOverride(name = "title", column = @Column(name = "book_title")),
         @AttributeOverride(name = "description", column = @Column(name = "book_description"))
 })
-public class Book extends Item {
+public class Book extends Item implements Serializable {
 
     @NotNull
     private String number;

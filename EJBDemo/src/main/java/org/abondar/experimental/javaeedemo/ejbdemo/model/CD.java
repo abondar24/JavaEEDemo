@@ -1,6 +1,7 @@
 package org.abondar.experimental.javaeedemo.ejbdemo.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
@@ -10,7 +11,10 @@ import java.util.*;
         @AttributeOverride(name = "title", column = @Column(name = "cd_title")),
         @AttributeOverride(name = "description", column = @Column(name = "cd_description"))
 })
-public class CD  extends Item {
+@NamedQueries({
+        @NamedQuery(name = "findAllCDs", query = "SELECT cd FROM CD cd")
+})
+public class CD  extends Item  implements Serializable{
 
 
     private String musicCompany;
@@ -19,16 +23,11 @@ public class CD  extends Item {
     private String genre;
 
 
-    @Lob
-    private byte[] cover;
-
     public CD(){}
 
     public CD(String title, Float price, String description) {
         super(title,price,description);
     }
-
-
 
     public CD(String title, Float price,String description, String musicCompany,
               Integer numberOfCDs, Float totalDuration, String genre) {
@@ -71,15 +70,6 @@ public class CD  extends Item {
         this.description = description;
     }
 
-    public byte[] getCover() {
-        return cover;
-    }
-
-    public void setCover(byte[] cover) {
-        this.cover = cover;
-    }
-
-
     public String getMusicCompany() {
         return musicCompany;
     }
@@ -119,7 +109,6 @@ public class CD  extends Item {
                 ", numberOfCDs=" + numberOfCDs +
                 ", totalDuration=" + totalDuration +
                 ", genre='" + genre + '\'' +
-                ", cover=" + Arrays.toString(cover) +
                 '}';
     }
 }

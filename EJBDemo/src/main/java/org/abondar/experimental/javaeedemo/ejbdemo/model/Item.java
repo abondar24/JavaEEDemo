@@ -13,7 +13,7 @@ public class Item {
     protected Long id;
 
     @NotNull
-    @Column(name="book_title",nullable = false,updatable = false)
+    @Column(name="title",nullable = false,updatable = false)
     protected String title;
 
     protected Float price;
@@ -24,7 +24,7 @@ public class Item {
 
     public Item(){}
 
-    public Item(@NotNull String title, Float price, @Size(min = 10, max = 2000) String description) {
+    public Item(String title, Float price, String description) {
         this.title = title;
         this.price = price;
         this.description = description;
