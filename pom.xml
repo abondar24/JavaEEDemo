@@ -10,8 +10,9 @@
     <version>1.0</version>
     <modules>
         <module>BasicCDI</module>
-        <module>BeanValidatation</module>
+        <module>BeanValidation</module>
         <module>ORMDemo</module>
+        <module>EJBDemo</module>
     </modules>
 
 
@@ -75,7 +76,6 @@
             <artifactId>javax.el</artifactId>
             <version>3.0.0</version>
         </dependency>
-
 
     </dependencies>
 </project>
