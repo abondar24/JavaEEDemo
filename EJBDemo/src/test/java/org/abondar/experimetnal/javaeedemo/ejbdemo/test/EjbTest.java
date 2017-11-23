@@ -1,20 +1,19 @@
 package org.abondar.experimetnal.javaeedemo.ejbdemo.test;
 
-import org.abondar.experimental.javaeedemo.ejbdemo.ejb.BookEJB;
-import org.abondar.experimental.javaeedemo.ejbdemo.ejb.ItemEJB;
-import org.abondar.experimental.javaeedemo.ejbdemo.ejb.ItemLocal;
-import org.abondar.experimental.javaeedemo.ejbdemo.ejb.ItemRemote;
-import org.abondar.experimental.javaeedemo.ejbdemo.model.Book;
-import org.abondar.experimental.javaeedemo.ejbdemo.model.CD;
+import org.abondar.experimental.javaeedemo.ejbdemo.ejb.*;
+import org.abondar.experimental.javaeedemo.ejbdemo.model.*;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
+import javax.ejb.NoSuchEJBException;
+
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,7 +26,9 @@ public class EjbTest {
         return ShrinkWrap.create(JavaArchive.class, "test.jar")
                 .addPackage(Book.class.getPackage())
                 .addPackage(BookEJB.class.getPackage())
-                .addAsResource("META-INF/test-persistence.xml","META-INF/persistence.xml");
+                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+                .addAsManifestResource("ejb-jar.xml");
+
 
     }
 
@@ -42,6 +43,13 @@ public class EjbTest {
 
     @EJB
     ItemRemote itemRemote;
+
+    @EJB
+    ShoppingCartEJB shoppingCart;
+
+    @EJB
+    CacheEJB cache;
+
 
     @Test
     public void createAndFindBookByEjbTest() throws Exception {
@@ -75,4 +83,60 @@ public class EjbTest {
         bookEJB.deleteBook(book);
 
     }
+
+    @Test(expected = NoSuchEJBException.class)
+    public void addTwoItemsToTheShoppingCartTest() throws Exception {
+
+        assertEquals( Integer.valueOf(0), shoppingCart.getNumberOfItems());
+        assertEquals(Float.valueOf(0), shoppingCart.getTotal());
+
+        Item book = new Item("Cars", 10.0f, "Book of cars");
+
+        shoppingCart.addItem(book);
+        assertEquals(Integer.valueOf(1), shoppingCart.getNumberOfItems());
+        assertEquals(Float.valueOf(10.0f), shoppingCart.getTotal());
+
+        Item cd = new Item("Mutter", 18f, "Rammstein album");
+
+        shoppingCart.addItem(cd);
+        assertEquals(Integer.valueOf(2), shoppingCart.getNumberOfItems());
+        assertEquals( Float.valueOf(28.0f), shoppingCart.getTotal());
+
+        shoppingCart.empty();
+        assertEquals(Integer.valueOf(0), shoppingCart.getNumberOfItems());
+        assertEquals( Float.valueOf(0), shoppingCart.getTotal());
+
+        shoppingCart.checkout();
+        shoppingCart.getNumberOfItems();
+    }
+
+
+
+    @Test
+    @Ignore
+    public void convertThePriceOfAnItemTest() throws Exception {
+        Item book = new Item("Cars", 10.0f, "Book of cars");
+        book.setCurrency("Dollars");
+
+        book= itemEJB.convertPrice(book);
+        assertEquals("Price should be 12.5 * 0.9", Float.valueOf(11.25f), book.getPrice());
+    }
+
+    @Test
+    public void addRemoveAndGetThingsFromTheCacheTest() throws Exception {
+        assertEquals(Integer.valueOf(0), cache.getNumberOfItems());
+
+        cache.addToCache(1L, "First item in the cache");
+        assertEquals(Integer.valueOf(1), cache.getNumberOfItems());
+        assertEquals("First item in the cache", cache.getFromCache(1L));
+
+        cache.addToCache(2L, "Second item in the cache");
+        assertEquals( Integer.valueOf(2), cache.getNumberOfItems());
+        assertEquals("Second item in the cache", cache.getFromCache(2L));
+
+        cache.removeFromCache(1L);
+        assertEquals(Integer.valueOf(1), cache.getNumberOfItems());
+        assertEquals("Second item in the cache", cache.getFromCache(2L));
+    }
+
 }

@@ -22,6 +22,8 @@ public class Item {
     @Column(length = 2000)
     protected String description;
 
+    protected String currency;
+
     public Item(){}
 
     public Item(String title, Float price, String description) {
@@ -60,5 +62,13 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }
