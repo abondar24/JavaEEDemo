@@ -10,4 +10,6 @@ import java.util.List;
 public interface ItemRemote {
     List<Book> findBooks();
     List<CD> findCDs();
+    Book createBook(Book book);
+    CD createCD(CD cd);
 }
