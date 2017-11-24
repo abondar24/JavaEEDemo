@@ -22,9 +22,8 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(Arquillian.class)
 public class EjbTest {
-    @Deployment(name = "test.jar")
+    @Deployment
     public static JavaArchive createDeployment() {
-        // explicit archive name required until ARQ-77 is resolved
         return ShrinkWrap.create(JavaArchive.class, "test.jar")
                 .addPackage(Book.class.getPackage())
                 .addPackage(BookEJB.class.getPackage())
@@ -93,14 +92,13 @@ public class EjbTest {
 
     @Test
     public void secureItemEjbTest() throws Exception {
-        admin.call((Callable<Book>) () -> {
+        admin.call(() -> {
             Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true);
             book = itemSecureEJB.createBook(book);
             assertNotNull("Book ID should not be null", book.getId());
             assertEquals(1, itemEJB.findBooks().size());
             assertEquals(1, itemLocal.findBooks().size());
             bookEJB.deleteBook(book);
-            return null;
         });
 
     }
