@@ -3,10 +3,11 @@ package org.abondar.experimental.javaeedemo.ejbdemo.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Item {
+public class Item implements Serializable {
 
     @Id
     @GeneratedValue

@@ -8,9 +8,7 @@ import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.RunAs;
-import javax.ejb.LocalBean;
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -46,16 +44,17 @@ public class ItemEJB implements ItemLocal, ItemRemote {
 
 
     @Override
-    public Book createBook(Book book) {
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Book createBook(Item book) {
         em.persist(book);
-        return book;
+        return em.find(Book.class,book.getId());
     }
 
 
     @Override
-    public CD createCD(CD cd) {
+    public CD createCD(Item cd) {
         em.persist(cd);
-        return cd;
+        return em.find(CD.class,cd.getId());
     }
 
     public void deleteCD(CD cd) {

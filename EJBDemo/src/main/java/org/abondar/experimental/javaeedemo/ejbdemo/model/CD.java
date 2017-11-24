@@ -1,6 +1,8 @@
 package org.abondar.experimental.javaeedemo.ejbdemo.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.*;
 
@@ -15,6 +17,7 @@ import java.util.*;
         @NamedQuery(name = "findAllCDs", query = "SELECT cd FROM CD cd")
 })
 public class CD  extends Item  implements Serializable{
+
 
 
     private String musicCompany;

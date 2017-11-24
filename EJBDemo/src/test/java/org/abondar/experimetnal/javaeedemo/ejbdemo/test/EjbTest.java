@@ -74,7 +74,7 @@ public class EjbTest {
     @Test
     public void createAnItemByEjbTest() throws Exception {
         Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true);
-        book = itemEJB.createBook(book);
+        book = itemRemote.createBook(book);
         assertNotNull("Book ID should not be null", book.getId());
         assertEquals(1, itemEJB.findBooks().size());
         assertEquals(1, itemLocal.findBooks().size());
@@ -83,7 +83,7 @@ public class EjbTest {
         CD cd = new CD("Love SUpreme", 20f, "John Coltrane love moment",
                 "Blue Note", 2, 87.45f, "Jazz");
 
-        cd = itemEJB.createCD(cd);
+        cd = itemRemote.createCD(cd);
         assertNotNull("CD ID should not be null", cd.getId());
         assertEquals(1, itemRemote.findCDs().size());
 
