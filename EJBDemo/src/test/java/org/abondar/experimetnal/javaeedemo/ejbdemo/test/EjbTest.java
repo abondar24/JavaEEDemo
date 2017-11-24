@@ -27,7 +27,7 @@ public class EjbTest {
                 .addPackage(Book.class.getPackage())
                 .addPackage(BookEJB.class.getPackage())
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
-                .addAsManifestResource("ejb-jar.xml");
+                .addAsManifestResource("META-INF/ejb-jar.xml");
 
 
     }
@@ -124,19 +124,18 @@ public class EjbTest {
 
     @Test
     public void addRemoveAndGetThingsFromTheCacheTest() throws Exception {
-        assertEquals(Integer.valueOf(0), cache.getNumberOfItems());
+        assertEquals(Integer.valueOf(2), cache.getNumberOfItems());
 
-        cache.addToCache(1L, "First item in the cache");
-        assertEquals(Integer.valueOf(1), cache.getNumberOfItems());
+        cache.addToCache(3L, "Third item in the cache");
+        assertEquals(Integer.valueOf(3), cache.getNumberOfItems());
         assertEquals("First item in the cache", cache.getFromCache(1L));
 
-        cache.addToCache(2L, "Second item in the cache");
-        assertEquals( Integer.valueOf(2), cache.getNumberOfItems());
-        assertEquals("Second item in the cache", cache.getFromCache(2L));
+        cache.addToCache(4L, "Fourth item in the cache");
+        assertEquals( Integer.valueOf(4), cache.getNumberOfItems());
+        assertEquals("Fourth item in the cache", cache.getFromCache(4L));
 
-        cache.removeFromCache(1L);
-        assertEquals(Integer.valueOf(1), cache.getNumberOfItems());
-        assertEquals("Second item in the cache", cache.getFromCache(2L));
+        cache.removeFromCache(3L);
+        assertEquals(Integer.valueOf(3), cache.getNumberOfItems());
     }
 
 }
