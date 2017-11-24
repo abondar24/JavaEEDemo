@@ -51,6 +51,9 @@ public class EjbTest {
     @EJB
     private CacheEJB cache;
 
+    @EJB
+    private ItemSecureEJB itemSecureEJB;
+
     @Inject
     private ItemAdmin admin;
 
@@ -70,28 +73,35 @@ public class EjbTest {
 
     @Test
     public void createAnItemByEjbTest() throws Exception {
+        Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true);
+        book = itemEJB.createBook(book);
+        assertNotNull("Book ID should not be null", book.getId());
+        assertEquals(1, itemEJB.findBooks().size());
+        assertEquals(1, itemLocal.findBooks().size());
+
+
+        CD cd = new CD("Love SUpreme", 20f, "John Coltrane love moment",
+                "Blue Note", 2, 87.45f, "Jazz");
+
+        cd = itemEJB.createCD(cd);
+        assertNotNull("CD ID should not be null", cd.getId());
+        assertEquals(1, itemRemote.findCDs().size());
+
+        bookEJB.deleteBook(book);
+
+    }
+
+    @Test
+    public void secureItemEjbTest() throws Exception {
         admin.call((Callable<Book>) () -> {
             Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true);
-            book = itemEJB.createBook(book);
+            book = itemSecureEJB.createBook(book);
             assertNotNull("Book ID should not be null", book.getId());
             assertEquals(1, itemEJB.findBooks().size());
             assertEquals(1, itemLocal.findBooks().size());
             bookEJB.deleteBook(book);
             return null;
         });
-
-        admin.call((Callable<CD>)()->{
-            CD cd = new CD("Love SUpreme", 20f, "John Coltrane love moment",
-                    "Blue Note", 2, 87.45f, "Jazz");
-
-            cd = itemEJB.createCD(cd);
-            assertNotNull("CD ID should not be null", cd.getId());
-            assertEquals(1, itemRemote.findCDs().size());
-            return null;
-        });
-
-
-
 
     }
 
@@ -123,6 +133,7 @@ public class EjbTest {
 
 
     @Test
+    @Ignore
     public void convertThePriceOfAnItemTest() throws Exception {
         Item book = new Item("Cars", 10.0f, "Book of cars");
         book.setCurrency("Dollars");

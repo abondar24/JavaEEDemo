@@ -21,7 +21,6 @@ import java.util.List;
 @Stateless
 @LocalBean
 @Remote(ItemRemote.class)
-@RolesAllowed({"user", "employee", "admin"})
 public class ItemEJB implements ItemLocal, ItemRemote {
 
     @PersistenceContext(unitName = "demo_unit")
@@ -33,7 +32,6 @@ public class ItemEJB implements ItemLocal, ItemRemote {
     @Resource(name = "changeRateEntry")
     private Float changeRate;
 
-    @PermitAll
     @Override
     public List<Book> findBooks() {
         TypedQuery<Book> query = em.createNamedQuery("findAllBooks", Book.class);
@@ -60,7 +58,6 @@ public class ItemEJB implements ItemLocal, ItemRemote {
         return cd;
     }
 
-    @RolesAllowed("admin")
     public void deleteCD(CD cd) {
         em.remove(em.merge(cd));
     }
