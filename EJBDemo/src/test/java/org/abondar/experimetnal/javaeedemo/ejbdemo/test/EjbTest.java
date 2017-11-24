@@ -13,7 +13,9 @@ import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 import javax.ejb.NoSuchEJBException;
+import javax.inject.Inject;
 
+import java.util.concurrent.Callable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -29,26 +31,28 @@ public class EjbTest {
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsManifestResource("META-INF/ejb-jar.xml");
 
-
     }
 
     @EJB
-    BookEJB bookEJB;
+    private BookEJB bookEJB;
 
     @EJB
-    ItemEJB itemEJB;
+    private ItemEJB itemEJB;
 
     @EJB
-    ItemLocal itemLocal;
+    private ItemLocal itemLocal;
 
     @EJB
-    ItemRemote itemRemote;
+    private ItemRemote itemRemote;
 
     @EJB
-    ShoppingCartEJB shoppingCart;
+    private ShoppingCartEJB shoppingCart;
 
     @EJB
-    CacheEJB cache;
+    private CacheEJB cache;
+
+    @Inject
+    private ItemAdmin admin;
 
 
     @Test
@@ -66,28 +70,35 @@ public class EjbTest {
 
     @Test
     public void createAnItemByEjbTest() throws Exception {
-        Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true);
-        book = itemEJB.createBook(book);
-        assertNotNull("Book ID should not be null", book.getId());
-        assertEquals(1, itemEJB.findBooks().size());
-        assertEquals(1, itemLocal.findBooks().size());
+        admin.call((Callable<Book>) () -> {
+            Book book = new Book("Cars", 10.0f, "The book of cars", "1-84023-742-2", 100, true);
+            book = itemEJB.createBook(book);
+            assertNotNull("Book ID should not be null", book.getId());
+            assertEquals(1, itemEJB.findBooks().size());
+            assertEquals(1, itemLocal.findBooks().size());
+            bookEJB.deleteBook(book);
+            return null;
+        });
+
+        admin.call((Callable<CD>)()->{
+            CD cd = new CD("Love SUpreme", 20f, "John Coltrane love moment",
+                    "Blue Note", 2, 87.45f, "Jazz");
+
+            cd = itemEJB.createCD(cd);
+            assertNotNull("CD ID should not be null", cd.getId());
+            assertEquals(1, itemRemote.findCDs().size());
+            return null;
+        });
 
 
-        CD cd = new CD("Love SUpreme", 20f, "John Coltrane love moment",
-                "Blue Note", 2, 87.45f, "Jazz");
 
-        cd = itemEJB.createCD(cd);
-        assertNotNull("CD ID should not be null", cd.getId());
-        assertEquals(1, itemRemote.findCDs().size());
-
-        bookEJB.deleteBook(book);
 
     }
 
     @Test(expected = NoSuchEJBException.class)
     public void addTwoItemsToTheShoppingCartTest() throws Exception {
 
-        assertEquals( Integer.valueOf(0), shoppingCart.getNumberOfItems());
+        assertEquals(Integer.valueOf(0), shoppingCart.getNumberOfItems());
         assertEquals(Float.valueOf(0), shoppingCart.getTotal());
 
         Item book = new Item("Cars", 10.0f, "Book of cars");
@@ -100,25 +111,23 @@ public class EjbTest {
 
         shoppingCart.addItem(cd);
         assertEquals(Integer.valueOf(2), shoppingCart.getNumberOfItems());
-        assertEquals( Float.valueOf(28.0f), shoppingCart.getTotal());
+        assertEquals(Float.valueOf(28.0f), shoppingCart.getTotal());
 
         shoppingCart.empty();
         assertEquals(Integer.valueOf(0), shoppingCart.getNumberOfItems());
-        assertEquals( Float.valueOf(0), shoppingCart.getTotal());
+        assertEquals(Float.valueOf(0), shoppingCart.getTotal());
 
         shoppingCart.checkout();
         shoppingCart.getNumberOfItems();
     }
 
 
-
     @Test
-    @Ignore
     public void convertThePriceOfAnItemTest() throws Exception {
         Item book = new Item("Cars", 10.0f, "Book of cars");
         book.setCurrency("Dollars");
 
-        book= itemEJB.convertPrice(book);
+        book = itemEJB.convertPrice(book);
         assertEquals("Price should be 12.5 * 0.9", Float.valueOf(11.25f), book.getPrice());
     }
 
@@ -131,7 +140,7 @@ public class EjbTest {
         assertEquals("First item in the cache", cache.getFromCache(1L));
 
         cache.addToCache(4L, "Fourth item in the cache");
-        assertEquals( Integer.valueOf(4), cache.getNumberOfItems());
+        assertEquals(Integer.valueOf(4), cache.getNumberOfItems());
         assertEquals("Fourth item in the cache", cache.getFromCache(4L));
 
         cache.removeFromCache(3L);
