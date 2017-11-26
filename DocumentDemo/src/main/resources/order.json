@@ -1,0 +1,32 @@
+{
+  "order": {
+    "id": 24,
+    "date": "24/09/2017",
+    "customer": {
+      "first_name": "Alex",
+      "last_name": "Bondar",
+      "email": "abondar@me.com",
+      "phoneNumber": "+4912341234"
+    },
+    "content": {
+      "order_line": [
+        {
+          "item": "Cars",
+          "quantity": 1,
+          "unit_price": 23.5
+        },
+        {
+          "item": "Salo",
+          "quantity": 2,
+          "unit_price": 34.99
+        }
+      ]
+    },
+    "credit_card": {
+      "number": "1357",
+      "expiry_date": "10/20",
+      "control_number": 234,
+      "type": "Visa"
+    }
+  }
+}

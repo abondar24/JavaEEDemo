@@ -15,7 +15,6 @@ import javax.ejb.EJB;
 import javax.ejb.NoSuchEJBException;
 import javax.inject.Inject;
 
-import java.util.concurrent.Callable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order date="24/09/2017" id="24">
+    <content>
+        <order_line item="Cars" quantity="1">
+            <unit_price>23.5</unit_price>
+        </order_line>
+        <order_line item="Salo" quantity="2">
+            <unit_price>34.99</unit_price>
+        </order_line>
+    </content>
+</order>

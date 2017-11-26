@@ -23,11 +23,28 @@ Each maven module covers different part of J2EE
  Build: mvn clean install
  Run: exec:java
 ```
-You need to setup a database with name and credentials from persistence.xml file
-Some parts of demo are run from main, some parts are stored as unit tests
 
 - EJB Demo: EJB usage examples 
 
 ```yaml
  Build: mvn clean install
 ```
+
+- JSF Demo: JSF Web application example
+
+```yaml
+ Build and deploy: mvn clean install wildfly:deploy
+```
+
+- Document Demo: XML and Json parsing and transforming demos
+```yaml
+ Build: mvn clean install
+ Run: exec:java
+```
+
+# External Stuff
+
+- For ORM demo you need to set up a database with name and credentials from persistence.xml file
+   Some parts of demo are run from main, some parts are stored as unit tests  
+- EJB and JSF demos are build around Wildfly 11 server. You need to reconfigure them for another servers
+- JSF demo is using Wildfly running in a Docker container so wildfly plugin and idea are configured for remote server.   
