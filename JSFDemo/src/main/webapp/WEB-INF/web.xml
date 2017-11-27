@@ -6,10 +6,9 @@
     <display-name>jsfDemo</display-name>
     <context-param>
         <param-name>javax.faces.CONFIG_FILES</param-name>
-        <param-value>faces-config.xml</param-value>
+        <param-value>/WEB-INF/faces-config.xml</param-value>
     </context-param>
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
-
 </web-app>
