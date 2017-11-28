@@ -13,7 +13,7 @@
         <module>BeanValidation</module>
         <module>ORMDemo</module>
         <module>EJBDemo</module>
-        <module>JSFDemo</module>
+        <!--<module>JSFDemo</module>-->
         <module>DocumentDemo</module>
     </modules>
     <dependencyManagement>
