@@ -1,13 +1,12 @@
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
-    <!-- The datasource is bound into JNDI at this location. We reference
-       this in META-INF/persistence.xml -->
+
     <datasource jndi-name="java:jboss/datasources/demo_source"
                 pool-name="jsf-demo" enabled="true"
                 use-java-context="true">
-        <connection-url>jdbc:derby:memory:demodb;create=true</connection-url>
-        <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
+        <connection-url>jdbc:h2:mem:demodb;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1</connection-url>
+        <driver>h2</driver>
         <security>
             <user-name>alex</user-name>
             <password>aftermath24</password>
