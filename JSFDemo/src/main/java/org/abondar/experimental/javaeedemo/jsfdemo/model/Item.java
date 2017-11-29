@@ -72,4 +72,15 @@ public class Item implements Serializable {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", currency='" + currency + '\'' +
+                '}';
+    }
 }

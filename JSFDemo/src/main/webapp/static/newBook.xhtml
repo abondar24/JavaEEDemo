@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+    <title>Create new book</title>
+    <style type="text/css">
+      body {
+          font-family: Arial,Helvetica,sans-serif;
+      }
+
+      table{
+          border: 0;
+      }
+
+      h1 {
+          font-size: 22px;
+          color: coral;
+          font-style: oblique;
+      }
+
+    </style>
+    <script type="text/javascript">
+        function priceRequired() {
+            if (document.getElementById("price").value===""){
+                document.getElementById("priceError").innerHTML = "Please,Enter a price!"
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Create a new book</h1>
+<hr/>
+<h:form>
+    <h:panelGrid columns="2">
+        <h:outputLabel value="ISBN: "/>
+        <h:inputText value="#{bookController.book.number}"/>
+
+        <h:outputLabel value="Title: "/>
+        <h:inputText  value="#{bookController.book.title}"/>
+
+        <h:outputLabel value="Price: "/>
+        <h:inputText id="price" value="#{bookController.book.price}" onblur="priceRequired()"/>
+
+        <h:outputLabel value="Description: "/>
+        <h:inputTextarea  value="#{bookController.book.description}"/>
+
+        <h:outputLabel value="Number of pages: "/>
+        <h:inputText value="#{bookController.book.numberOfPages}"/>
+
+        <h:outputLabel value="Illustrations: "/>
+        <h:selectBooleanCheckbox value="#{bookController.book.illustrations}"/>
+
+    </h:panelGrid>
+
+    <h:commandButton value="Create a new book" action="#{bookController.doCreateBook}" ajax="true"/>
+</h:form>
+
+<hr/>
+<em>Experimental Page</em>
+</body>
+</html>

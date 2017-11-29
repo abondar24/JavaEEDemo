@@ -130,11 +130,12 @@ public class Book extends Item implements Serializable {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
+        return super.toString()+"Book{" +
+                "number='" + number + '\'' +
+                ", numberOfPages=" + numberOfPages +
+                ", publisher='" + publisher + '\'' +
+                ", illustrations=" + illustrations +
+                ", version=" + version +
                 '}';
     }
 }
