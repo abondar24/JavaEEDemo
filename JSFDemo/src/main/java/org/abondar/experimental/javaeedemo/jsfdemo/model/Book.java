@@ -4,6 +4,7 @@ package org.abondar.experimental.javaeedemo.jsfdemo.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "book")
@@ -27,6 +28,9 @@ public class Book extends Item implements Serializable {
 
     private Boolean illustrations;
 
+
+    private Date publishedDate;
+
     @Version
     private Integer version;
 
@@ -47,12 +51,14 @@ public class Book extends Item implements Serializable {
         this.illustrations = illustrations;
     }
 
-    public Book(String title, Float price, String description, String number, Integer numberOfPages, String publisher, Boolean illustrations) {
+    public Book(String title, Float price, String description, String number, Integer numberOfPages, String publisher, Boolean illustrations, Date publishedDate, Integer version) {
         super(title, price, description);
         this.number = number;
         this.numberOfPages = numberOfPages;
         this.publisher = publisher;
         this.illustrations = illustrations;
+        this.publishedDate = publishedDate;
+        this.version = version;
     }
 
     public String getTitle() {
@@ -126,6 +132,14 @@ public class Book extends Item implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
     }
 
     @Override

@@ -26,7 +26,7 @@ public class BookEJB {
         return book;
     }
 
-    public List<Book> findBooks() {
+    public List<Book> findAllBooks() {
         TypedQuery<Book> query = em.createNamedQuery("findAllBooks", Book.class);
         return query.getResultList();
     }

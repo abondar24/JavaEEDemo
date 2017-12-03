@@ -6,35 +6,48 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-<script type="text/javascript">
-    function priceRequired() {
-        if (document.getElementById("price").value===""){
-            document.getElementById("priceError").innerHTML = "Please,Enter a price!"
-        }
-    }
-</script>
+
 
 <ui:composition template="layout.xhtml">
     <ui:define name="content">
-        <h:form>
+        <h:messages infoStyle="color:blue" warnStyle="color: orange" errorStyle="color: red"/>
+        <h:form id="bookForm">
             <h:panelGrid columns="2">
                 <h:outputLabel value="ISBN: "/>
-                <h:inputText value="#{bookController.book.number}"/>
+                <h:inputText id="number" value="#{bookController.book.number}" validator="isbnValidator"/>
+                <h:message for="number" rendered="false"/>
 
                 <h:outputLabel value="Title: "/>
-                <h:inputText  value="#{bookController.book.title}"/>
+                <h:inputText id="title" value="#{bookController.book.title}">
+                    <f:validateLength minimum="2" maximum="20"/>
+                </h:inputText>
+                <h:message for="title" rendered="false"/>
+
 
                 <h:outputLabel value="Price: "/>
-                <h:inputText id="price" value="#{bookController.book.price}" onblur="priceRequired()"/>
+                <h:inputText id="price" value="#{bookController.book.price}">
+                    <f:convertNumber currencySymbol="$" type="currency" maxIntegerDigits="3"/>
+                    <f:validateLongRange minimum="1" maximum="500"/>
+                </h:inputText>
+                <h:message for="price" rendered="false"/>
 
                 <h:outputLabel value="Description: "/>
-                <h:inputTextarea  value="#{bookController.book.description}"/>
+                <h:inputTextarea  id="descr" value="#{bookController.book.description}"/>
+                <h:message for="descr" rendered="false"/>
 
                 <h:outputLabel value="Number of pages: "/>
-                <h:inputText value="#{bookController.book.numberOfPages}"/>
+                <h:inputText id="numPages" value="#{bookController.book.numberOfPages}"/>
+                <h:message for="numPages" rendered="false"/>
+
+                <h:outputLabel value="Date of publising: "/>
+                <h:inputText id="dop" value="#{bookController.book.publishedDate}">
+                    <f:convertDateTime pattern="dd/MM/yy"/>
+                </h:inputText>
+                <h:message for="dop" rendered="false"/>
 
                 <h:outputLabel value="Illustrations: "/>
-                <h:selectBooleanCheckbox value="#{bookController.book.illustrations}"/>
+                <h:selectBooleanCheckbox id="ill" value="#{bookController.book.illustrations}"/>
+                <h:message for="ill" rendered="false"/>
 
             </h:panelGrid>
 

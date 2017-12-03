@@ -8,6 +8,11 @@
         <param-name>javax.faces.CONFIG_FILES</param-name>
         <param-value>/WEB-INF/faces-config.xml</param-value>
     </context-param>
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
