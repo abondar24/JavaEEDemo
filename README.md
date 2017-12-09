@@ -42,9 +42,20 @@ Each maven module covers different part of J2EE
  Run: exec:java
 ```
 
+- JMS Demo: Wildfly based jms. For activeMQ related messaging see [JMSDemo](https://github.com/abondar24/JMSDemo)
+```yaml
+Build: mvn clean install
+Run Producer: java -jar target/producer.jar
+Run Consumer: java -jar target/consumer.jar
+ 
+``` 
+
 # External Stuff
 
 - For ORM demo you need to set up a database with name and credentials from persistence.xml file
    Some parts of demo are run from main, some parts are stored as unit tests  
 - EJB and JSF demos are build around Wildfly 11 server. You need to reconfigure them for another servers
-- JSF demo is using Wildfly running in a Docker container so wildfly plugin and idea are configured for remote server.   
+- JSF demo is using Wildfly running in a Docker container so wildfly plugin and idea are configured for remote server.
+- For JMS Demo you need to create a queue on the server  and add jndi name with format java:jboss/exported/queueName. 
+Before build change producer and consumer class names in pom file. 
+Also you need a user with credentials from jms.properties file and role "guest"

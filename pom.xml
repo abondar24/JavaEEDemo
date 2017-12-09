@@ -15,6 +15,7 @@
         <module>EJBDemo</module>
         <!--<module>JSFDemo</module>-->
         <module>DocumentDemo</module>
+        <module>JMSDemo</module>
     </modules>
     <dependencyManagement>
         <dependencies>
