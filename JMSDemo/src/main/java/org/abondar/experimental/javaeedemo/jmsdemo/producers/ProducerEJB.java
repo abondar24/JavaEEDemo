@@ -3,21 +3,21 @@ package org.abondar.experimental.javaeedemo.jmsdemo.producers;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSContext;
-import javax.jms.Queue;
+import javax.inject.Inject;
+import javax.jms.*;
 
 @Stateless
 public class ProducerEJB {
 
-    @Resource(lookup = "org.jboss.naming.remote.client.InitialContextFactory")
-    private ConnectionFactory factory;
-
     @Resource(lookup = "jms/demoQueue")
     private Queue queue;
 
+    @Inject
+    @JMSConnectionFactory("jms/RemoteConnectionFactory")
+    @JMSSessionMode(JMSContext.AUTO_ACKNOWLEDGE)
+    private JMSContext context;
+
     public void sendMessage() throws Exception{
-        JMSContext context = factory.createContext();
         context.createProducer().send(queue,"MSG");
     }
 

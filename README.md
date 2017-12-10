@@ -57,5 +57,5 @@ Run Consumer: java -jar target/consumer.jar
 - EJB and JSF demos are build around Wildfly 11 server. You need to reconfigure them for another servers
 - JSF demo is using Wildfly running in a Docker container so wildfly plugin and idea are configured for remote server.
 - For JMS Demo you need to create a queue on the server  and add jndi name with format java:jboss/exported/queueName. 
-Before build change producer and consumer class names in pom file. 
+Before build change producer and consumer class names on the one you want to use in pom file. 
 Also you need a user with credentials from jms.properties file and role "guest"
