@@ -50,12 +50,17 @@ Run Consumer: java -jar target/consumer.jar
  
 ``` 
 
+- SOAP Demo: SOAP Webservice demo.
+```yaml
+ Build and deploy: mvn clean install wildfly:deploy
+```
+
 # External Stuff
 
 - For ORM demo you need to set up a database with name and credentials from persistence.xml file
    Some parts of demo are run from main, some parts are stored as unit tests  
-- EJB and JSF demos are build around Wildfly 11 server. You need to reconfigure them for another servers
-- JSF demo is using Wildfly running in a Docker container so wildfly plugin and idea are configured for remote server.
+- EJB ,JSF,SOAP and REST demos are build around Wildfly 11 server. You need to reconfigure them for another servers
 - For JMS Demo you need to create a queue on the server  and add jndi name with format java:jboss/exported/queueName. 
 Before build change producer and consumer class names on the one you want to use in pom file. 
 Also you need a user with credentials from jms.properties file and role "guest"
+- Endpoint address for WSDL in SOAP demo: http://localhost:8080/SOAPDemo/CardValidator?wsdl
