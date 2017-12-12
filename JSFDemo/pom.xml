@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <groupId>org.abondar.experimental.javaeedemo</groupId>
+    <groupId>org.abondar.experimental.javaeedemo.jsfdemo</groupId>
     <version>1.0</version>
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
@@ -36,7 +36,7 @@
                 <version>3.2.0</version>
                 <configuration>
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                    <warName>JSFDemo</warName>
+                    <warName>${project.build.finalName}</warName>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
@@ -45,25 +45,19 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>1.2.1.Final</version>
                 <configuration>
-                    <protocol>remote</protocol>
                     <hostname>localhost</hostname>
                     <port>9990</port>
                     <username>alex</username>
                     <password>aftermath24</password>
                     <filename>${project.build.finalName}.war</filename>
+                    <skip>false</skip>
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>deploy-artifact</goal>
+                            <goal>deploy</goal>
                         </goals>
-                        <configuration>
-                            <groupId>org.abondar.experimental.javaeedemo</groupId>
-                            <artifactId>JSFDemo</artifactId>
-                            <skip>false</skip>
-                        </configuration>
                     </execution>
-
                 </executions>
             </plugin>
         </plugins>

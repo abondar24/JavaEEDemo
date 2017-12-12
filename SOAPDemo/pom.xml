@@ -73,31 +73,20 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>1.2.1.Final</version>
                 <configuration>
-                    <protocol>remote</protocol>
                     <hostname>localhost</hostname>
                     <port>9990</port>
                     <username>alex</username>
                     <password>aftermath24</password>
-                    <filename>${project.build.finalName}.war</filename>
+                    <filename>SOAPDemo.war</filename>
+                    <skip>false</skip>
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>deploy-artifact</goal>
+                            <goal>deploy</goal>
                         </goals>
-                        <configuration>
-                            <groupId>org.abondar.experimental.javaeedemo</groupId>
-                            <artifactId>SOAPDemo</artifactId>
-                            <skip>false</skip>
-                        </configuration>
                     </execution>
-
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jvnet.jax-ws-commons</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <version>2.2</version>
             </plugin>
         </plugins>
     </build>
