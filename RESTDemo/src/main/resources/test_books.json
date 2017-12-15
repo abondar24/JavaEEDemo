@@ -1,0 +1,26 @@
+[
+  {
+    "id":null,
+    "title":"Cars",
+    "price":12.5,
+    "description":"Science fiction comedy book",
+    "currency":null,
+    "numberOfPages":400,
+    "publisher":null,
+    "illustrations":false,
+    "publishedDate":null,
+    "isbn":"1-24023-742-2"
+  },
+  {
+    "id":null,
+    "title":"Cars",
+    "price":12.5,
+    "description":"Science fiction comedy book",
+    "currency":null,
+    "numberOfPages":400,
+    "publisher":null,
+    "illustrations":false,
+    "publishedDate":null,
+    "isbn":"1-24023-742-2"
+  }
+]

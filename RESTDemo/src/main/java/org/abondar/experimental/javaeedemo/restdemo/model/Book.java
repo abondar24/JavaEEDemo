@@ -1,7 +1,13 @@
 package org.abondar.experimental.javaeedemo.restdemo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,9 +21,12 @@ import java.util.Date;
         @AttributeOverride(name = "title", column = @Column(name = "book_title")),
         @AttributeOverride(name = "description", column = @Column(name = "book_description"))
 })
+@XmlRootElement
+@JsonIgnoreProperties(value = { "version" })
 public class Book extends Item implements Serializable {
 
     @NotNull
+    @JsonProperty("isbn")
     private String number;
 
     @Column(name = "num_pages", nullable = false)
