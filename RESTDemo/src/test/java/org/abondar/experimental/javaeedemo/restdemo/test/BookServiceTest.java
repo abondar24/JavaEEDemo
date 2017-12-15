@@ -1,7 +1,8 @@
 package org.abondar.experimental.javaeedemo.restdemo.test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.abondar.experimental.javaeedemo.restdemo.config.ApplicationConfig;
+import org.abondar.experimental.javaeedemo.restdemo.ejb.BookEJB;
+import org.abondar.experimental.javaeedemo.restdemo.ejb.CustomerEJB;
 import org.abondar.experimental.javaeedemo.restdemo.model.Book;
 import org.abondar.experimental.javaeedemo.restdemo.service.BookRestService;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -10,6 +11,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -26,13 +28,13 @@ import static org.junit.Assert.assertTrue;
 public class BookServiceTest {
 
 
-
     @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class, "test.jar")
+    public static WebArchive createDeployment() {
+        return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addPackage(Book.class.getPackage())
                 .addPackage(BookRestService.class.getPackage())
                 .addPackage(ApplicationConfig.class.getPackage())
+                .addPackage(BookEJB.class.getPackage())
                 .addAsResource("META-INF/persistence.xml");
 
     }

@@ -1,13 +1,22 @@
 package org.abondar.experimental.javaeedemo.restdemo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 @Entity
 @Table(name="customer")
 @Access(AccessType.FIELD)
+@NamedQueries({
+        @NamedQuery(name = "findCustomers", query = "SELECT c FROM Customer c")
+})
+@XmlRootElement
+@JsonIgnoreProperties(value = { "dateOfBirth","creationDate" })
 public class Customer {
 
     @Id
@@ -17,14 +26,17 @@ public class Customer {
 
     @NotNull
     @Column(name="first_name",nullable = false,length=50)
+    @JsonProperty("first_name")
     private String firstName;
 
     @Column(name="last_name",nullable = false,length=50)
+    @JsonProperty("last_name")
     private String lastName;
 
     private String email;
 
     @Column(name="phone_number",length = 15)
+    @JsonProperty("phone_number")
     private String phoneNumber;
 
     @Past
@@ -37,6 +49,10 @@ public class Customer {
     @Transient
     private Integer age;
 
+    private String zipcode;
+
+    private String city;
+
     public Customer(){}
 
     public Customer(String firstName, String lastName, String email, String phoneNumber,Date dateOfBirth, Date creationDate) {
@@ -46,6 +62,18 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
         this.creationDate = creationDate;
+    }
+
+    public Customer(String firstName, String lastName, String email, String phoneNumber, Date dateOfBirth, Date creationDate, Integer age, String zipcode, String city) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.creationDate = creationDate;
+        this.age = age;
+        this.zipcode = zipcode;
+        this.city = city;
     }
 
     public Long getId() {
@@ -115,6 +143,21 @@ public class Customer {
         this.age = age;
     }
 
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     @Override
     public String toString() {
@@ -127,6 +170,8 @@ public class Customer {
                 ", dateOfBirth=" + dateOfBirth +
                 ", creationDate=" + creationDate +
                 ", age=" + age +
+                ", zipcode='" + zipcode + '\'' +
+                ", city='" + city + '\'' +
                 '}';
     }
 }

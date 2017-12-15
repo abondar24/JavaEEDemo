@@ -3,11 +3,17 @@ package org.abondar.experimental.javaeedemo.restdemo.test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.abondar.experimental.javaeedemo.restdemo.model.Book;
 import org.abondar.experimental.javaeedemo.restdemo.model.Books;
+import org.abondar.experimental.javaeedemo.restdemo.model.Customer;
+import org.abondar.experimental.javaeedemo.restdemo.model.Customers;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -40,6 +46,33 @@ public class MarshallingTest {
         assertEquals(readFile("src/main/resources/test_books.json"), res);
 
     }
+
+    @Test
+    public void marshallCustomerTest() throws Exception {
+        Customer customer = new Customer("Alex", "Bondar", "alex@mail.com", String.valueOf(12121211),
+                new Date(), new Date(), 25, "95134", "San Jose");
+        String res = mapper.writeValueAsString(customer);
+
+
+        assertEquals(readFile("src/main/resources/test_customer.json"), res);
+
+    }
+
+    @Test
+    public void marshallListOfCustomers() throws Exception {
+        Customers customers = new Customers(Arrays.asList(
+                new Customer("Alex", "Bondar", "alex@mail.com", String.valueOf(12121211),
+                        new Date(), new Date(), 25, "95134", "San Jose"),
+                new Customer("Alex", "Bondar", "alex@mail.com", String.valueOf(12121211),
+                        new Date(), new Date(), 25, "95134", "San Jose")));
+
+        String res = mapper.writeValueAsString(customers);
+
+
+        assertEquals(readFile("src/main/resources/test_customers.json"), res);
+
+    }
+
 
     private String readFile(String fileName) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {

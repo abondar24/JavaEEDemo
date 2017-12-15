@@ -55,6 +55,11 @@ Run Consumer: java -jar target/consumer.jar
  Build and deploy: mvn clean install wildfly:deploy
 ```
 
+- REST Demo: REST Webservice demo.
+```yaml
+ Build and deploy: mvn clean install wildfly:deploy
+```
+
 # External Stuff
 
 - For ORM demo you need to set up a database with name and credentials from persistence.xml file
