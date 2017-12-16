@@ -42,12 +42,6 @@ public class CustomerRestService {
         return customerEJB.getCustomers();
     }
 
-    @GET
-    @Path("/get_customer_by_login/{login: [^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$]}")
-    public Customer getCustomerByLogin(@PathParam("login") String login) {
-        return customerEJB.getCustomerByLogin(login);
-    }
-
 
     @GET
     @Path("/get_customer_by_id/{customer_id: \\d+}")

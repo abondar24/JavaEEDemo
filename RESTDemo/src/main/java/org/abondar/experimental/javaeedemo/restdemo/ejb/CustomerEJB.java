@@ -6,9 +6,9 @@ import org.abondar.experimental.javaeedemo.restdemo.model.Customers;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.ws.rs.core.Response;
 
 @Stateless
 public class CustomerEJB {
@@ -29,19 +29,15 @@ public class CustomerEJB {
     }
 
 
-    public Customer getCustomerByLogin(String login){
-        TypedQuery<Customer> query = em.createQuery("select c from Customer c where c.email=:login",Customer.class);
-        query.setParameter("login", login);
-
-        return query.getSingleResult();
-    }
-
-
     public Customer getCustomerById(Long id) {
         TypedQuery<Customer> query = em.createQuery("select c from Customer c where c.id=:id", Customer.class);
         query.setParameter("id", id);
 
-        return query.getSingleResult();
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException ex){
+            return new Customer();
+        }
     }
 
 

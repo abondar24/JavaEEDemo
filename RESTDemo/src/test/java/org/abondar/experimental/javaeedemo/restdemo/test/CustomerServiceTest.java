@@ -93,24 +93,7 @@ public class CustomerServiceTest {
         Response response = client.target(base + "rest/customer_service/get_customers").request(MediaType.APPLICATION_JSON).get();
         assertEquals(base.getPath(), 200, response.getStatus());
         Customers customers = response.readEntity(Customers.class);
-        System.out.println(customers.getCustomers());
         assertTrue(customers.isEmpty());
-    }
-
-    @Test
-    public void getCustomerByLoginTest() {
-        customerEJB.clearCustomers();
-        Customer c = new Customer("Alex", "Bondar", "alex@mail.com", String.valueOf(12121211),
-                new Date(), new Date(), 25, "95134", "San Jose");
-
-        customerEJB.createCustomer(c);
-        Response response = client.target(base + "rest/customer_service/get_customer_by_login/").path("ALLALAaaaa")
-                .request(MediaType.APPLICATION_JSON).get();
-        assertEquals(200, response.getStatus());
-
-        Customer customer = response.readEntity(Customer.class);
-        assertEquals(c.getId(), customer.getId());
-        customerEJB.deleteCustomer(customer.getId());
     }
 
 
@@ -126,45 +109,57 @@ public class CustomerServiceTest {
                 "&city="+c.getCity()).request().get();
         assertEquals(200, response.getStatus());
 
-        Customer customer = response.readEntity(Customer.class);
-        assertEquals(c.getId(), customer.getId());
-        customerEJB.deleteCustomer(customer.getId());
+        Customers customers = response.readEntity(Customers.class);
+        assertEquals(1,customers.size());
+
+        customers.forEach(cc-> customerEJB.deleteCustomer(cc.getId()));
+
     }
 
-//    @Test
-//    public void shouldCheckGetCustomerByZipCodeURI() {
-//        Response response = client.target("http://localhost:8282/07/customer?zip=75001").request().get();
-//        assertEquals(200, response.getStatus());
-//    }
-//
-//    @Test
-//    public void shouldCheckGetCustomerByZipCodeWithParamURI() {
-//        Response response = client.target("http://localhost:8282/07/customer").queryParam("zip", 75011L).request().get();
-//        assertEquals(200, response.getStatus());
-//    }
-//
-//    @Test
-//    public void shouldCheckGetCustomerByFirstnameNameURI() {
-//        Response response = client.target("http://localhost:8282/07/customer/search;firstname=Antonio;surname=Goncalves").request().get();
-//        assertEquals(200, response.getStatus());
-//    }
-//
-//    @Test
-//    public void shouldCheckGetCustomerByFirstnameURI() {
-//        Response response = client.target("http://localhost:8282/07/customer/search;firstname=AntonioNull").request().get();
-//        assertEquals(200, response.getStatus());
-//    }
-//
-//    @Test
-//    public void shouldCheckGetCustomerByFirstnameNameWithParamURI() {
-//        Response response = client.target("http://localhost:8282/07/customer/search").matrixParam("firstname", "Antonio2").matrixParam("surname", "Goncalves2").request().get();
-//        assertEquals(200, response.getStatus());
-//    }
-//
+    @Test
+    public void getCustomerByZipCodeTest() {
+        customerEJB.clearCustomers();
+        Customer c = new Customer("Alex", "Bondar", "alex@mail.com", String.valueOf(12121211),
+                new Date(), new Date(), 25, "95134", "San Jose");
+
+        customerEJB.createCustomer(c);
+
+        Response response = client.target(base+"rest/customer_service/get_customer_by_zip?zip="+c.getZipcode())
+                .request(MediaType.APPLICATION_JSON).get();
+        assertEquals(200, response.getStatus());
+
+        Customers customers = response.readEntity(Customers.class);
+        assertEquals(1,customers.size());
+
+        customers.forEach(cc-> customerEJB.deleteCustomer(cc.getId()));
+
+    }
+
+
+    @Test
+    public void getCustomerByNameTest() {
+        customerEJB.clearCustomers();
+        Customer c = new Customer("Alex", "Bondar", "alex@mail.com", String.valueOf(12121211),
+                new Date(), new Date(), 25, "95134", "San Jose");
+
+        customerEJB.createCustomer(c);
+
+        Response response = client.target(base+"rest/customer_service/get_customer_by_name;first_name="+c.getFirstName()+
+                ";last_name="+c.getLastName()).request(MediaType.APPLICATION_JSON).get();
+        assertEquals(200, response.getStatus());
+
+        Customer customer = response.readEntity(Customer.class);
+        assertEquals(c.getFirstName(), customer.getFirstName());
+        assertEquals(c.getLastName(),customer.getLastName());
+        customerEJB.deleteCustomer(customer.getId());
+
+    }
+
     @Test
     public void getCustomerWithCookieParamTest() throws Exception{
         Cookie myCookie = new Cookie("session_id", "This is my cookie");
-        String response = client.target(base+"rest/customer_service/get_session_id").request().cookie(myCookie).get(String.class);
+        String response = client.target(base+"rest/customer_service/get_session_id")
+                .request(MediaType.APPLICATION_JSON).cookie(myCookie).get(String.class);
         assertEquals(objectMapper.writeValueAsString("This is my cookie from the server"), response);
     }
 
