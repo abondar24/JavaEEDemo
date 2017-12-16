@@ -55,7 +55,13 @@ public class Customer {
 
     public Customer(){}
 
-    public Customer(String firstName, String lastName, String email, String phoneNumber,Date dateOfBirth, Date creationDate) {
+    public Customer(String firstName, String lastName, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Customer(String firstName, String lastName, String email, String phoneNumber, Date dateOfBirth, Date creationDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

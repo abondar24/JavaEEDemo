@@ -7,11 +7,9 @@ import org.abondar.experimental.javaeedemo.restdemo.model.Customers;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.List;
 
 @Path("/customer_service")
 @Produces(MediaType.APPLICATION_JSON)
@@ -27,6 +25,15 @@ public class CustomerRestService {
     @Inject
     private CustomerEJB customerEJB;
 
+    private Customer demoCustomer =new Customer("Alex","Bondar","1212121212");
+
+
+    @GET
+    @Path("/ping")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String ping() {
+        return "ping";
+    }
 
     @POST
     @Path("/create_customer")
@@ -77,7 +84,6 @@ public class CustomerRestService {
     @GET
     @Path("/extract_user_agent")
     public Response extractUserAgent(@HeaderParam("User-Agent") String userAgent) {
-        System.out.println("ALLAAAA: "+userAgent);
         return Response.ok(userAgent + " from the server").build();
     }
 
@@ -88,4 +94,39 @@ public class CustomerRestService {
         customerEJB.deleteCustomer(customerId);
         return Response.noContent().build();
     }
+
+
+    @GET
+    @Path("/get_customer_text")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getCustomerText(){
+        return Response.ok(demoCustomer.toString()).build();
+    }
+
+
+    @GET
+    @Path("/get_customer_html")
+    @Produces(MediaType.TEXT_HTML)
+    public Response getCustomerHtml() {
+        String sb = "<h1>Customer</h1><p>" +
+                demoCustomer.toString() +
+                "</p><hr/>";
+        return Response.ok(sb).build();
+    }
+
+    @GET
+    @Path("/get_customer_xml")
+    @Produces({MediaType.APPLICATION_XML})
+    public Response getAsCustomerXML() {
+        return Response.ok(demoCustomer).build();
+    }
+
+    @GET
+    @Path("/get_default_media")
+    public String getDefaultMediaType(@Context HttpHeaders httpHeaders){
+        List<MediaType> types = httpHeaders.getAcceptableMediaTypes();
+        return types.get(0).toString();
+    }
+
+
 }

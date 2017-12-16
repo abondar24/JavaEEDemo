@@ -106,6 +106,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-wadl</artifactId>
+            <version>3.0.19.Final</version>
+        </dependency>
+
 
     </dependencies>
     <profiles>

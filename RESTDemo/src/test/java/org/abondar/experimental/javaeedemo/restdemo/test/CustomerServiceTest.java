@@ -11,7 +11,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -55,12 +54,19 @@ public class CustomerServiceTest {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+
+    @Test
+    public void pingTest(){
+        Response response = client.target(base + "rest/customer_service/ping").request(MediaType.TEXT_PLAIN).get();
+        assertEquals(200, response.getStatus());
+        assertEquals("ping",response.readEntity(String.class));
+    }
+
     @Test
     public void createAndDeleteCustomerTest() {
         customerEJB.clearCustomers();
         Customer customer = new Customer("Alex", "Bondar", "alex@mail.com", String.valueOf(12121211),
                 new Date(), new Date(), 25, "95134", "San Jose");
-        client = ClientBuilder.newClient();
         WebTarget target = client.target(base + "rest/customer_service/create_customer");
         Invocation invocation = target.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(customer, "application/json"));
         Response response = invocation.invoke();
@@ -91,7 +97,7 @@ public class CustomerServiceTest {
         customerEJB.clearCustomers();
 
         Response response = client.target(base + "rest/customer_service/get_customers").request(MediaType.APPLICATION_JSON).get();
-        assertEquals(base.getPath(), 200, response.getStatus());
+        assertEquals(200, response.getStatus());
         Customers customers = response.readEntity(Customers.class);
         assertTrue(customers.isEmpty());
     }
@@ -101,7 +107,7 @@ public class CustomerServiceTest {
     public void getCustomerByZipCodeCityTest() {
         customerEJB.clearCustomers();
         Customer c = new Customer("Alex", "Bondar", "alex@mail.com", String.valueOf(12121211),
-                new Date(), new Date(), 25, "95134", "San Jose");
+               null, null, 25, "95134", "San Jose");
 
         customerEJB.createCustomer(c);
 
@@ -120,7 +126,7 @@ public class CustomerServiceTest {
     public void getCustomerByZipCodeTest() {
         customerEJB.clearCustomers();
         Customer c = new Customer("Alex", "Bondar", "alex@mail.com", String.valueOf(12121211),
-                new Date(), new Date(), 25, "95134", "San Jose");
+                null, null, 25, "95134", "San Jose");
 
         customerEJB.createCustomer(c);
 
@@ -140,7 +146,7 @@ public class CustomerServiceTest {
     public void getCustomerByNameTest() {
         customerEJB.clearCustomers();
         Customer c = new Customer("Alex", "Bondar", "alex@mail.com", String.valueOf(12121211),
-                new Date(), new Date(), 25, "95134", "San Jose");
+                null, null, 25, "95134", "San Jose");
 
         customerEJB.createCustomer(c);
 
@@ -165,12 +171,43 @@ public class CustomerServiceTest {
 
 
     @Test
-    public void echoUserAgentWithReponseTest() {
+    public void echoUserAgentWithResponseTest() {
 
         Response response = client.target(base+"rest/customer_service/extract_user_agent").request().get();
         assertEquals(200, response.getStatus());
         assertTrue(response.readEntity(String.class).startsWith("Apache"));
     }
+
+
+    @Test
+    public void getCustomerAsPlainTextTest() {
+        Response response = client.target(base+"rest/customer_service/get_customer_text").request(MediaType.TEXT_PLAIN).get();
+        assertEquals(200, response.getStatus());
+        assertTrue(response.readEntity(String.class).startsWith("Customer"));
+    }
+
+    @Test
+    public void getCustomerAsHTML() {
+        Response response = client.target(base + "rest/customer_service/get_customer_html").request(MediaType.TEXT_HTML).get();
+        assertEquals(200, response.getStatus());
+        assertTrue(response.readEntity(String.class).startsWith("<h1>Customer</h1>"));
+    }
+
+    @Test
+    public void getCustomerAsXML() {
+        Response response = client.target(base + "rest/customer_service/get_customer_xml").request(MediaType.APPLICATION_XML).get();
+        assertEquals(200, response.getStatus());
+        assertTrue(response.readEntity(String.class).startsWith("<?xml"));
+    }
+
+
+    @Test
+    public void getDefaultMediaTypeTest() {
+        Response response = client.target(base + "rest/customer_service/get_default_media").request().get();
+        assertEquals(200, response.getStatus());
+        assertEquals("*/*", response.readEntity(String.class));
+    }
+
 
 }
 

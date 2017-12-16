@@ -68,4 +68,5 @@ Run Consumer: java -jar target/consumer.jar
 - For JMS Demo you need to create a queue on the server  and add jndi name with format java:jboss/exported/queueName. 
 Before build change producer and consumer class names on the one you want to use in pom file. 
 Also you need a user with credentials from jms.properties file and role "guest"
-- Endpoint address for WSDL in SOAP demo: http://localhost:8080/SOAPDemo/CardValidator?wsdl
+- Address for WSDL in SOAP demo: http://localhost:8080/SOAPDemo/CardValidator?wsdl
+- Address for WADL file with description of REST API: http://localhost:8080/restdemo/application.wadl
