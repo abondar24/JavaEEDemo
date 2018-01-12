@@ -60,6 +60,12 @@ Run Consumer: java -jar target/consumer.jar
  Build and deploy: mvn clean install wildfly:deploy
 ```
 
+- SerlvetFileDownload: Small example of how to download a file from server using servlet
+- REST Demo: REST Webservice demo.
+```yaml
+ Build and deploy: mvn clean install wildfly:deploy
+```
+
 # External Stuff
 
 - For ORM demo you need to set up a database with name and credentials from persistence.xml file
@@ -70,3 +76,4 @@ Before build change producer and consumer class names on the one you want to use
 Also you need a user with credentials from jms.properties file and role "guest"
 - Address for WSDL in SOAP demo: http://localhost:8080/SOAPDemo/CardValidator?wsdl
 - Address for WADL file with description of REST API: http://localhost:8080/restdemo/application.wadl
+- Address for ServletFileDownload: http://localhost:8080/fd/filedownload/<filename>
