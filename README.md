@@ -69,7 +69,7 @@ Run Consumer: java -jar target/consumer.jar
 - WildflyDockerDemo: example of building a docker image based on Docker with usage custom configuration of Wildfly. Custom config has additional datasource.
 ```yaml
 Build: mvn clean install
-Run: docker run -p 8080:8080 -p 9990:9990 --name <container_name> abondar/wfdocker
+Run: docker run -d -p 8080:8080 -p 9990:9990 --name <container_name> abondar/wfdocker
 Pull from docker-hub: docker pull abondar/wfdocker
 ```
 
