@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <title>Check Numbers</title>
+</h:head>
+<h:body>
+    <c:set var="upperLimit" value="20"/>
+    <c:forEach var="i" begin="3" end="#{upperLimit -5}">
+        <c:choose>
+            <c:when test="#{i%2==0}">
+                <h:outputText value="#{i} is even"/><br/>
+            </c:when>
+            <c:otherwise>
+                <h:outputText value="#{i} is odd"/><br/>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+</h:body>
+</html>

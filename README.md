@@ -66,6 +66,14 @@ Run Consumer: java -jar target/consumer.jar
  Build and deploy: mvn clean install wildfly:deploy
 ```
 
+- WildflyDockerDemo: example of building a docker image based on Docker with usage custom configuration of Wildfly. Custom config has additional datasource.
+```yaml
+Build: mvn clean install
+Run: docker run -p 8080:8080 -p 9990:9990 --name <container_name> abondar/wfdocker
+Pull from docker-hub: docker pull abondar/wfdocker
+```
+
+
 # External Stuff
 
 - For ORM demo you need to set up a database with name and credentials from persistence.xml file
