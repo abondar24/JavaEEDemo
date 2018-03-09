@@ -5,8 +5,9 @@ import org.abondar.experimental.javaeedemo.jsfdemo.model.Book;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
+import javax.inject.Named;
 
-@ManagedBean
+@Named("initController")
 @ApplicationScoped
 public class InitController {
 

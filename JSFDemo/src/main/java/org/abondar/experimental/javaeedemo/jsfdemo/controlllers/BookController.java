@@ -8,10 +8,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.Date;
 import java.util.List;
 
-@ManagedBean
+@Named("bookController")
 @RequestScoped
 public class BookController {
 
