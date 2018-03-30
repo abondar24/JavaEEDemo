@@ -6,7 +6,7 @@ Each maven module covers different part of J2EE
 
 # Demos
 
-- BasicCDI: core of Context Dependency injection. 
+- BasicCDI: core of Context Dependency injection.
 ```yaml
  Build: mvn clean install
  Run: exec:java
@@ -17,14 +17,14 @@ Each maven module covers different part of J2EE
  Build: mvn clean install
 ```
 
-- ORM Demo: JPA and Hibernate usage including(persistence,quering,criteria api,caching,locks and listener usage) 
+- ORM Demo: JPA and Hibernate usage including(persistence,quering,criteria api,caching,locks and listener usage)
 
 ```yaml
  Build: mvn clean install
  Run: exec:java
 ```
 
-- EJB Demo: EJB usage examples 
+- EJB Demo: EJB usage examples
 
 ```yaml
  Build: mvn clean install
@@ -47,8 +47,8 @@ Each maven module covers different part of J2EE
 Build: mvn clean install
 Run Producer: java -jar target/producer.jar
 Run Consumer: java -jar target/consumer.jar
- 
-``` 
+
+```
 
 - SOAP Demo: SOAP Webservice demo.
 ```yaml
@@ -73,14 +73,15 @@ Run: docker run -d -p 8080:8080 -p 9990:9990 --name <container_name> abondar/wfd
 Pull from docker-hub: docker pull abondar/wfdocker
 ```
 
+- [RichFacesDemo](https://github.com/abondar24/RichfacesDemo) - more JSF features using RichFaces library
 
 # External Stuff
 
 - For ORM demo you need to set up a database with name and credentials from persistence.xml file
    Some parts of demo are run from main, some parts are stored as unit tests  
 - EJB ,JSF,SOAP and REST demos are build around Wildfly 11 server. You need to reconfigure them for another servers
-- For JMS Demo you need to create a queue on the server  and add jndi name with format java:jboss/exported/queueName. 
-Before build change producer and consumer class names on the one you want to use in pom file. 
+- For JMS Demo you need to create a queue on the server  and add jndi name with format java:jboss/exported/queueName.
+Before build change producer and consumer class names on the one you want to use in pom file.
 Also you need a user with credentials from jms.properties file and role "guest"
 - Address for WSDL in SOAP demo: http://localhost:8080/SOAPDemo/CardValidator?wsdl
 - Address for WADL file with description of REST API: http://localhost:8080/restdemo/application.wadl
