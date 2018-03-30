@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+<h:head id="head9">
+    <title>RichDemo</title>
+</h:head>
+
+<a4j:status name="action1Status" startText="Button A"
+            startStyle="background-color: chocolate; font-weight: bold; position: absolute; right: 5px; top: 1px; width: 140px;" />
+<a4j:status name="action2Status" startText="Button B"
+            startStyle="background-color: aqua; font-weight: bold; position: absolute; right: 5px; top: 1px; width: 120px;" />
+<a4j:queue requestDelay="8000"/>
+
+<h:form>
+    <h:panelGrid columns="2" border="1">
+        <a4j:commandButton value="Button A" action="#{queueController.action1}" render="row1" status="action1Status"/>
+        <a4j:commandButton value="Button B" action="#{queueController.action2}" render="row2" status="action2Status"/>
+        <h:outputText id="now1" value="#{queueController.now1}"/>
+        <h:outputText id="now2" value="#{queueController.now2}"/>
+    </h:panelGrid>
+</h:form>
+</html>

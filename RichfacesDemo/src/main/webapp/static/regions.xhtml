@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+<h:head id="head8">
+    <title>RichDemo</title>
+</h:head>
+<h:form>
+    <a4j:region>
+    <h:panelGrid>
+        <h:selectOneMenu id="type" value="#{flowerRegionController.type}">
+            <f:selectItem itemValue="Roses" itemLabel="Roses" />
+            <f:selectItem itemValue="Tulips" itemLabel="Tulips" />
+            <f:selectItem itemValue="Irises" itemLabel="Irises" />
+        </h:selectOneMenu>
+        <h:selectOneMenu id="size" value="#{flowerRegionController.size}">
+            <f:selectItem itemValue="Small" itemLabel="Small" />
+            <f:selectItem itemValue="Large" itemLabel="Large" />
+            <f:selectItem itemValue="Extra Large" itemLabel="Extra Large" />
+        </h:selectOneMenu>
+        <h:selectOneMenu value="#{flowerRegionController.vase}">
+            <f:selectItem itemValue="Standard vase" itemLabel="Standard vase" />
+            <f:selectItem itemValue="Premium vase" itemLabel="Premium vase" />
+            <f:selectItem itemValue="No vase" itemLabel="No vase" />
+        </h:selectOneMenu>
+        <h:commandButton value="BuyFlowers">
+            <a4j:ajax event="click" execute="@region"/>
+        </h:commandButton>
+    </h:panelGrid>
+    </a4j:region>
+    <a4j:outputPanel ajaxRendered="true" layout="block">
+        <h:panelGrid>
+            <h:outputText value="#{flowerRegionController.type}"/>
+            <h:outputText value="#{flowerRegionController.size}"/>
+            <h:outputText value="#{flowerRegionController.vase}"/>
+        </h:panelGrid>
+    </a4j:outputPanel>
+</h:form>
+</html>

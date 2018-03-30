@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+<h:head id="head6">
+    <title>RichDemo</title>
+</h:head>
+
+<h:form id="form1">
+    <h:panelGrid columns="2">
+        <h:outputText value="Name:"/>
+        <h:inputText value="#{cmdController.name}"/>
+        <h:outputText value="Echo:"/>
+        <h:outputText id="echo" value="#{cmdController.name}"/>
+        <h:outputText value="Count:"/>
+        <h:outputText id="count" value="#{cmdController.count}"/>
+    </h:panelGrid>
+    <a4j:commandButton value="Submit" render="echo count" action="#{cmdController.doCount}"/>
+</h:form>
+
+</html>
