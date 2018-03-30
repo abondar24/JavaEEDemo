@@ -73,7 +73,7 @@ Run: docker run -d -p 8080:8080 -p 9990:9990 --name <container_name> abondar/wfd
 Pull from docker-hub: docker pull abondar/wfdocker
 ```
 
-- [RichFacesDemo](https://github.com/abondar24/RichfacesDemo) - more JSF features using RichFaces library
+- [RichFacesDemo](../RichfacesDemo) - more JSF features using RichFaces library
 
 # External Stuff
 
