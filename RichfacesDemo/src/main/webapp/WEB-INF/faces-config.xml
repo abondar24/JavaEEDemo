@@ -12,5 +12,8 @@
             <var>msg</var>
         </resource-bundle>
     </application>
+    <lifecycle>
+        <phase-listener>org.abondar.experimental.richdemo.listeners.PhaseTracker</phase-listener>
+    </lifecycle>
 
 </faces-config>

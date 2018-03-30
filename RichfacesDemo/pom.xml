@@ -9,6 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <richfaces.version>4.5.17.Final</richfaces.version>
+        <ehcache.version>2.10.4</ehcache.version>
+        <javax.annotations.version>1.3.1</javax.annotations.version>
     </properties>
 
     <packaging>war</packaging>
@@ -25,7 +27,11 @@
             <artifactId>richfaces</artifactId>
             <version>${richfaces.version}</version>
         </dependency>
-
+        <dependency>
+        <groupId>net.sf.ehcache</groupId>
+        <artifactId>ehcache</artifactId>
+        <version>${ehcache.version}</version>
+    </dependency>
     </dependencies>
 
 
@@ -39,8 +45,8 @@
                     <jdkToolchain>
                         <version>[1.8,9)</version>
                     </jdkToolchain>
-                    <source>9</source>
-                    <target>9</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>

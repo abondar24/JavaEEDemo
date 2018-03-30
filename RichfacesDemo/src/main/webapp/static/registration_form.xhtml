@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+<h:head id="head4">
+    <title>RichDemo</title>
+</h:head>
+<h:form>
+    <h:panelGrid columns="3">
+        <h:outputText value="Name:"/>
+        <h:inputText id="name" value="#{registrationController.name}">
+            <f:validateRequired/>
+            <f:validateLength minimum="3"/>
+            <a4j:ajax event="blur" render="errorName" bypassUpdates="true"/>
+        </h:inputText>
+        <h:message id="errorName" for="name"/>
+
+        <h:outputText value="Age:"/>
+        <h:inputText id="age" value="#{registrationController.age}">
+            <f:validateRequired/>
+            <f:validateLongRange minimum="0"/>
+            <a4j:ajax event="blur" render="errorAge" bypassUpdates="true"/>
+        </h:inputText>
+        <h:message id="errorAge" for="age"/>
+    </h:panelGrid>
+    <h:commandButton value="Register" action="result"/>
+</h:form>
+
+</html>
