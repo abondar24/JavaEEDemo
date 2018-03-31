@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+<h:head id="head11">
+    <title>RichDemo</title>
+</h:head>
+<h:form>
+    <h:panelGrid columns="1">
+        <rich:inplaceInput value="#{inputController.name}"
+                           defaultLabel="Click to edit name"/>
+        <rich:inplaceInput value="#{inputController.email}"
+                           defaultLabel="Clcick to edit email"
+                           showControls="true"
+                            saveOnBlur="false">
+            <a4j:ajax event="change" render="out"/>
+        </rich:inplaceInput>
+    </h:panelGrid>
+</h:form>
+
+
+<rich:inplaceSelect value="#{inputController.fruits}" defaultLabel="Select fruit">
+    <f:selectItem itemValue="1" itemLabel="Banana"/>
+    <f:selectItem itemValue="2" itemLabel="Strawberry"/>
+    <f:selectItem itemValue="3" itemLabel="Cranberry"/>
+    <f:selectItem itemValue="4" itemLabel="Orange"/>
+</rich:inplaceSelect>
+
+<h:form>
+<h:panelGrid>
+<rich:inplaceSelect value="#{inputController.currentType}" defaultLabel="Select fruits"
+                     valueChangeListener="#{inputController.valueChanged}" editEvent="dblclick">
+    <f:selectItems value="#{inputController.firstList}"/>
+    <a4j:ajax event="change" render="second" execute="@this" />
+</rich:inplaceSelect>
+<a4j:outputPanel id="second" layout="block">
+    <rich:inplaceSelect value="#{inputController.currentType}"
+                        defaultLabel="Click to select item"
+                        rendered="#{not empty inputController.currentType}">
+        <f:selectItems value="#{inputController.secondList}" />
+    </rich:inplaceSelect>
+</a4j:outputPanel>
+</h:panelGrid>
+</h:form>
+
+<h:form>
+    <rich:autocomplete autocompleteList="#{inputController.fruits}" mode="lazyClient" showButton="true" selectFirst="true"/>
+</h:form>
+
+<rich:inputNumberSlider value="#{inputController.numberOfItems}" minValue="#{inputController.numberOfItems.get(0)}"
+                        maxValue="100" step="2"
+                        enableManualInput="false" inputPosition="left"/>
+
+<rich:inputNumberSpinner value="#{inputController.numberOfItems}" minValue="0" maxValue="100" step="2"
+                         enableManualInput="false"/>
+
+<h:form>
+    <style>
+        .bdc {
+            background-color: gray;
+        }
+        .wdc {
+            font-weight: bold;
+            font-style: italic;
+        }
+    </style>
+<rich:calendar value="#{inputController.today}" datePattern="dd/M/yy HH:mm:ss" dataModel="#{calendarModel}" mode="ajax"/>
+</h:form>
+
+<h:form>
+    <rich:fileUpload fileUploadListener="#{fileController.fileListener}"
+                     acceptedTypes="jpg, gif, png" id="upload">
+        <a4j:ajax event="uploadcomplete" execute="@none" render="info"  />
+    </rich:fileUpload>
+    <h:panelGroup id="info">
+    <rich:panel bodyClass="info">
+        <f:facet name="header">Uploaded Files Info</f:facet>
+        <rich:dataGrid value="#{fileController.files}" var="file" rowKeyVar="row">
+            <rich:panel>
+                <h:panelGrid columns="2">
+                    <a4j:mediaOutput element="img" mimeType="#{file.contentType}"
+                                     createContent="#{fileController.paint}" value="#{file}"
+                                     style="width: 100px;height: 100px;" cacheable="false">
+                        <f:param value="#{fileController.timestamp}" name="time"/>
+                    </a4j:mediaOutput>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="File Name:" />
+                        <h:outputText value="#{file.name}" />
+                        <h:outputText value="File Length(bytes):" />
+                        <h:outputText value="#{file.size}" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </rich:panel>
+        </rich:dataGrid>
+    </rich:panel>
+    </h:panelGroup>
+</h:form>
+</html>
