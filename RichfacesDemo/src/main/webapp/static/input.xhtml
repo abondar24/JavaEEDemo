@@ -10,6 +10,7 @@
 <h:head id="head11">
     <title>RichDemo</title>
 </h:head>
+<h:body>
 <h:form>
     <h:panelGrid columns="1">
         <rich:inplaceInput value="#{inputController.name}"
@@ -84,8 +85,8 @@
             <rich:panel>
                 <h:panelGrid columns="2">
                     <a4j:mediaOutput element="img" mimeType="#{file.contentType}"
-                                     createContent="#{fileController.paint}" value="#{file}"
-                                     style="width: 100px;height: 100px;" cacheable="false">
+                                     createContent="#{fileController.paint}" value="#{row}"
+                                     style="width:100px;height:100px;" cacheable="false">
                         <f:param value="#{fileController.timestamp}" name="time"/>
                     </a4j:mediaOutput>
                     <h:panelGrid columns="2">
@@ -100,4 +101,5 @@
     </rich:panel>
     </h:panelGroup>
 </h:form>
+</h:body>
 </html>

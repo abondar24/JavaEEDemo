@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+<h:head id="head12">
+    <title>RichDemo</title>
+</h:head>
+<h:body>
+<style>
+    .body:hover {
+        font-weight:bold;
+    }
+    .highlight-font{
+        text-decoration: underline;
+    }
+</style>
+
+<h:form>
+<rich:panel width="150" headerClass="header" onmouseover="jQuery('.header').add-class('highlight-font');"
+            onmouseout="jQuery('.header').remove-class('highlight-font');">
+    PANEL with stuff
+</rich:panel>
+</h:form>
+<h:form>
+    <rich:collapsiblePanel rightCollapsedIcon="triangleUp" rightExpandedIcon="triangleDown" switchType="server"
+                           expanded="#{outputController.open}"
+                           toggleListener="#{outputController.loadPanelData}">
+        <f:facet name="headerExpanded">
+            header exanded
+        </f:facet>
+        <f:facet name="headerCollapsed">
+            header collapsed
+        </f:facet>
+    </rich:collapsiblePanel>
+</h:form>
+
+<h:form>
+    <rich:panel style="width: 500px;">
+        <rich:tabPanel switchType="ajax" id="tabs">
+            <rich:tab header="Tab1" name="t1">
+                11111
+            </rich:tab>
+            <rich:tab header="Tab2" name="t2">
+                2222
+            </rich:tab>
+        </rich:tabPanel>
+    </rich:panel>
+</h:form>
+    <h:form>
+        <rich:panel style="width: 500px;">
+            <rich:accordion switchType="ajax">
+                <rich:accordionItem header="Tab1" name="t1">
+                    11111
+                </rich:accordionItem>
+                <rich:accordionItem header="Tab2" name="t2">
+                    2222
+                </rich:accordionItem>
+            </rich:accordion>
+        </rich:panel>
+    </h:form>
+
+    <a href="#" onclick="#{rich:component('modalPanel')}.show()">
+        Open
+    </a>
+
+    <rich:popupPanel id="modalPanel">
+        <f:facet name="header">
+            Modal Panel
+        </f:facet>
+
+        <h:outputText value="Modal opened"/>
+        <a href="#" onclick="#{rich:component('modalPanel')}.hide()">
+            Hide
+        </a>
+    </rich:popupPanel>
+
+    <h:commandButton value="Show popup">
+        <rich:componentControl target="panel1" operation="show">
+          <a4j:param noEscape="true" value="event" />
+            <rich:hashParam>
+                <f:param name="minWidth" value="300px"/>
+                <f:param name="minHeight" value="150px"/>
+                <a4j:param noEscape="true" name="left" value="(jQuery(window).width()/2)-250" />
+                <a4j:param noEscape="true" name="top" value="(jQuery(window).width()/2)-150" />
+            </rich:hashParam>
+        </rich:componentControl>
+    </h:commandButton>
+    <rich:popupPanel id="panel1" modal="false" resizeable="true" header="Dynamic popup" moveable="true">
+        <p>Opened we are</p>
+        <a href="#" onclick="#{rich:component('panel1')}.hide()">
+            Hide
+        </a>
+    </rich:popupPanel>
+    <h:form>
+       <a4j:commandLink value="Open" onclick="#{rich:component('panel2')}.show()" render="time" />
+    </h:form>
+    <rich:popupPanel id="panel2" autosized="true" header="Time Panel">
+        <h:panelGrid>
+            <h:outputText value="Opened Panel"/>
+            <h:outputText id="time" value="Time: #{outputController.now}">
+                <f:convertDateTime/>
+            </h:outputText>
+        </h:panelGrid>
+        <a href="#" onclick="#{rich:component('panel2')}.hide()">
+            Hide
+        </a>
+    </rich:popupPanel>
+    <h:form>
+        <rich:panel style="width: 350px">
+            <f:facet name="header">Tooltip</f:facet>
+            <h:outputText id="tl" value="Some text" style="font-size: xx-large;"/>
+            <rich:tooltip mode="ajax" for="tl" followMouse="true" showEvent="click">
+                <f:facet name="loading">Loading...</f:facet>
+                <h:panelGrid style="width: 200px">
+                    <b>#{outputController.now}</b>
+                    Teeext
+                </h:panelGrid>
+            </rich:tooltip>
+        </rich:panel>
+    </h:form>
+</h:body>
+</html>
