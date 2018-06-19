@@ -1,0 +1,10 @@
+{
+  "id":null,
+  "email":"alex@mail.com",
+  "age":25,
+  "zipcode":"95134",
+  "city":"San Jose",
+  "first_name":"Alex",
+  "last_name":"Bondar",
+  "phone_number":"12121211"
+}

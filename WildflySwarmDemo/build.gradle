@@ -1,0 +1,76 @@
+group 'org.abondar.experimental.wfswarm'
+version '1.0-SNAPSHOT'
+
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
+        classpath "org.wildfly.swarm:wildfly-swarm-gradle-plugin:2018.5.0"
+    }
+}
+
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'wildfly-swarm'
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 9
+targetCompatibility = 9
+
+mainClassName = 'org.abondar.experimental.wfswarmdemo.Main'
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+    maven {
+        url 'https://maven.repository.redhat.com/nexus/content/repositories/thirdparty-releases/'
+    }
+    maven {
+        url 'http://repository.jboss.org/nexus/content/groups/public/'
+    }
+
+}
+
+
+dependencyManagement {
+    imports {
+        mavenBom "org.wildfly.swarm:bom-all:2018.5.0"
+
+    }
+}
+
+dependencies {
+    compile "org.wildfly.swarm:jaxrs"
+    compile group: 'org.wildfly.swarm', name: 'wildfly-swarm-jpa', version: '1.0.0.Alpha5'
+    compile group: 'org.wildfly.swarm', name: 'undertow', version: '2018.5.0'
+    compile group: 'org.wildfly.swarm', name: 'cdi', version: '2018.5.0'
+    compile group: 'org.wildfly.swarm', name: 'ejb', version: '2018.5.0'
+    compile group: 'org.wildfly.swarm', name: 'ee', version: '2018.5.0'
+    compile group: 'org.jboss.arquillian', name: 'arquillian-bom', version: '1.4.0.Final', ext: 'pom'
+    compile group: 'org.wildfly.swarm', name: 'gradle-arquillian-adapter', version: '2018.5.0'
+
+    testCompile group: 'org.jboss.arquillian.junit', name: 'arquillian-junit-container', version: '1.4.0.Final'
+    testCompile group: 'org.wildfly.swarm', name: 'arquillian', version: '2018.5.0'
+
+}
+
+test {
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat = 'full'
+    }
+
+    reports {
+        html.enabled=true
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.7'
+}

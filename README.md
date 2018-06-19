@@ -74,7 +74,7 @@ Pull from docker-hub: docker pull abondar/wfdocker
 ```
 
 - [RichFacesDemo](RichfacesDemo/README.md) - more JSF features using RichFaces library
-
+- [WildflySwarmDemo](WildflySwarmDemo/README.MD) - microservices with Java EE
 # External Stuff
 
 - For ORM demo you need to set up a database with name and credentials from persistence.xml file
