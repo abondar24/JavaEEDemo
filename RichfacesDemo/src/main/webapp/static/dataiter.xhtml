@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+<h:head id="head14">
+    <title>RichDemo</title>
+</h:head>
+<h:body>
+    <style>
+        .odd{
+            background-color: #{richSkin.additionalBackgroundColor};
+        }
+        .even{
+            background-color: #{richSkin.tableSubHeaderBackgroundColor};
+        }
+        .cityColumn{
+            font-weight:bold;
+        }
+    </style>
+    <rich:panel style="width: 650px" header="rich:dataTable sample">
+        <rich:dataTable value="#{olympicsController.games}" var="game">
+            <f:facet name="header">Olympic Games List</f:facet>
+            <rich:column>
+                <f:facet name="header">City</f:facet>
+                #{game.city}
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">Country</f:facet>
+                #{game.country}
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">Contient</f:facet>
+                #{game.continent}
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">Number</f:facet>
+                #{game.number}
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">Season</f:facet>
+                #{game.season}
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">From date</f:facet>
+                #{game.fromDate}
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">To date</f:facet>
+                #{game.toDate}
+            </rich:column>
+        </rich:dataTable>
+
+    </rich:panel>
+</h:body>
+</html>
