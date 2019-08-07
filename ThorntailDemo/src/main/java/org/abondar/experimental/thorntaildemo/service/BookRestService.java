@@ -49,8 +49,8 @@ public class BookRestService {
     @Path("/create_book")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
-        String bookId = bookEJB.createBook(book);
-        URI uri = uriInfo.getBaseUriBuilder().path("book_service/get_book/" + bookId).build();
+        var bookId = bookEJB.createBook(book);
+        var uri = uriInfo.getBaseUriBuilder().path("book_service/get_book/" + bookId).build();
         return Response.created(uri).build();
     }
 

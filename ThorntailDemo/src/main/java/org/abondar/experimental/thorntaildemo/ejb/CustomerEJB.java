@@ -24,13 +24,13 @@ public class CustomerEJB {
     }
 
     public Customers getCustomers(){
-        TypedQuery<Customer> query = em.createNamedQuery("findCustomers",Customer.class);
+        var query = em.createNamedQuery("findCustomers",Customer.class);
         return new Customers(query.getResultList());
     }
 
 
     public Customer getCustomerById(Long id) {
-        TypedQuery<Customer> query = em.createQuery("select c from Customer c where c.id=:id", Customer.class);
+        var query = em.createQuery("select c from Customer c where c.id=:id", Customer.class);
         query.setParameter("id", id);
 
         try {
@@ -43,7 +43,7 @@ public class CustomerEJB {
 
     public Customers getCustomersByZipcode(String zip, String city) {
 
-        TypedQuery<Customer> query = em.createQuery("select c from Customer c where" +
+        var query = em.createQuery("select c from Customer c where" +
                 " c.zipcode=:zip and c.city=:city", Customer.class);
         query.setParameter("zip", zip);
         query.setParameter("city", city);
@@ -53,7 +53,7 @@ public class CustomerEJB {
 
     public Customers getCustomersByZipcode(String zip) {
 
-        TypedQuery<Customer> query = em.createQuery("select c from Customer c where" +
+        var query = em.createQuery("select c from Customer c where" +
                 " c.zipcode=:zip ", Customer.class);
         query.setParameter("zip", zip);
 
@@ -63,7 +63,7 @@ public class CustomerEJB {
 
     public Customer getCustomersByName(String firstName, String lastName) {
 
-        TypedQuery<Customer> query = em.createQuery("select c from Customer c where" +
+        var query = em.createQuery("select c from Customer c where" +
                 " c.firstName=:firstName and c.lastName=:lastName", Customer.class);
         query.setParameter("firstName", firstName);
         query.setParameter("lastName", lastName);

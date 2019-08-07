@@ -38,8 +38,8 @@ public class CustomerRestService {
     @POST
     @Path("/create_customer")
     public Response createCustomer(Customer customer) {
-        String customerId = customerEJB.createCustomer(customer).toString();
-        URI uri = uriInfo.getBaseUriBuilder().path("customer_service/get_customer_by_id/" + customerId).build();
+        var customerId = customerEJB.createCustomer(customer).toString();
+        var uri = uriInfo.getBaseUriBuilder().path("customer_service/get_customer_by_id/" + customerId).build();
         return Response.created(uri).build();
     }
 
@@ -114,12 +114,6 @@ public class CustomerRestService {
         return Response.ok(sb).build();
     }
 
-    @GET
-    @Path("/get_customer_xml")
-    @Produces({MediaType.APPLICATION_XML})
-    public Response getAsCustomerXML() {
-        return Response.ok(demoCustomer).build();
-    }
 
     @GET
     @Path("/get_default_media")

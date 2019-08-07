@@ -20,7 +20,7 @@ public class BookEJB {
     }
 
     public Books getBooks() {
-        TypedQuery<Book> query = em.createNamedQuery("findAllBooks", Book.class);
+        var query = em.createNamedQuery("findAllBooks", Book.class);
         return new Books(query.getResultList());
     }
 

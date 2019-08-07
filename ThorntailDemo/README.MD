@@ -16,7 +16,7 @@ The demo shows usage of JaxRS,EJB and JPA with Hibernate alongside H2 database
   java -jar target/ThorntailDemo-1.0-SNAPSHOT-thorntail.jar 
   or
   mvn thorntail:run
-  check: localhost:8080/ws/book_service/get_title or localhost:8080/ws/customer_service/ping 
+  check: localhost:8034/ws/book_service/get_title or localhost:8034/ws/customer_service/ping 
 ```
 
 

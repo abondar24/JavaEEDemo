@@ -192,13 +192,6 @@ public class CustomerServiceTest {
         assertTrue(response.readEntity(String.class).startsWith("<h1>Customer</h1>"));
     }
 
-    @Test
-    public void getCustomerAsXML() {
-        var response = client.target("http://localhost:8034/ws/customer_service/get_customer_xml").request(MediaType.APPLICATION_XML).get();
-        assertEquals(200, response.getStatus());
-        assertTrue(response.readEntity(String.class).startsWith("<?xml"));
-    }
-
 
     @Test
     public void getDefaultMediaTypeTest() {
