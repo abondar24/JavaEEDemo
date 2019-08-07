@@ -1,4 +1,4 @@
-package org.abondar.experimental.thorntaildemo.test;
+package org.abondar.experimental.thorntaildemo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.abondar.experimental.thorntaildemo.model.Book;
