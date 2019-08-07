@@ -1,4 +1,6 @@
-swarm:
+thorntail:
+  http:
+    port: 8034
   datasources:
     data-sources:
       DemoDS:
