@@ -4,19 +4,30 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import javax.persistence.*;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Entity
-@Table(name="customer")
+@Table(name = "customer")
 @Access(AccessType.FIELD)
 @NamedQueries({
         @NamedQuery(name = "findCustomers", query = "SELECT c FROM Customer c")
 })
 @JsonRootName("customer")
-@JsonIgnoreProperties(value = { "dateOfBirth","creationDate" })
+@JsonIgnoreProperties(value = {"dateOfBirth", "creationDate"})
 public class Customer {
 
     @Id
@@ -25,17 +36,17 @@ public class Customer {
 
 
     @NotNull
-    @Column(name="first_name",nullable = false,length=50)
+    @Column(name = "first_name", nullable = false, length = 50)
     @JsonProperty("first_name")
     private String firstName;
 
-    @Column(name="last_name",nullable = false,length=50)
+    @Column(name = "last_name", nullable = false, length = 50)
     @JsonProperty("last_name")
     private String lastName;
 
     private String email;
 
-    @Column(name="phone_number",length = 15)
+    @Column(name = "phone_number", length = 15)
     @JsonProperty("phone_number")
     private String phoneNumber;
 
@@ -53,7 +64,8 @@ public class Customer {
 
     private String city;
 
-    public Customer(){}
+    public Customer() {
+    }
 
     public Customer(String firstName, String lastName, String phoneNumber) {
         this.firstName = firstName;
@@ -116,7 +128,7 @@ public class Customer {
 
     //length of 15 is overwritten by 50 because of entity annotation
     @Access(AccessType.PROPERTY)
-    @Column(name="phone_number",length = 50)
+    @Column(name = "phone_number", length = 50)
     public String getPhoneNumber() {
         return phoneNumber;
     }

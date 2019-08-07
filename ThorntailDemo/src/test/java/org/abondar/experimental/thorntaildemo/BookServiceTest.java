@@ -1,22 +1,17 @@
 package org.abondar.experimental.thorntaildemo;
 
-import org.abondar.experimental.thorntaildemo.App;
-import org.abondar.experimental.thorntaildemo.ejb.BookEJB;
 import org.abondar.experimental.thorntaildemo.model.Book;
-import org.abondar.experimental.thorntaildemo.service.BookRestService;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.swarm.arquillian.DefaultDeployment;
 import org.wildfly.swarm.undertow.WARArchive;
 
-import javax.ws.rs.client.*;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -26,13 +21,13 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
 @DefaultDeployment(type = DefaultDeployment.Type.WAR)
-public class BookServiceTest  {
+public class BookServiceTest {
 
 
     @Deployment
     public static Archive createDeployment() {
         return ShrinkWrap.create(WARArchive.class, "BookServiceTest.war")
-                .addPackages(true,"org.abondar.experimental.thorntaildemo")
+                .addPackages(true, "org.abondar.experimental.thorntaildemo")
                 .addAsResource("META-INF/persistence.xml");
 
     }
@@ -60,7 +55,7 @@ public class BookServiceTest  {
 
         var client = ClientBuilder.newClient();
         var target = client.target("http://localhost:8034/ws/book_service/create_book");
-        var invocation = target.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(book,"application/json"));
+        var invocation = target.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(book, "application/json"));
         var response = invocation.invoke();
 
         assertEquals(201, response.getStatus());
@@ -82,7 +77,6 @@ public class BookServiceTest  {
         assertEquals(Response.Status.NO_CONTENT, response.getStatusInfo());
 
     }
-
 
 
 }

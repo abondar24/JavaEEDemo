@@ -6,9 +6,21 @@ import org.abondar.experimental.thorntaildemo.model.Customer;
 import org.abondar.experimental.thorntaildemo.model.Customers;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
-import java.net.URI;
+import javax.ws.rs.CookieParam;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.MatrixParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @Path("/customer_service")
@@ -25,7 +37,7 @@ public class CustomerRestService {
     @Inject
     private CustomerEJB customerEJB;
 
-    private Customer demoCustomer =new Customer("Alex","Bondar","1212121212");
+    private Customer demoCustomer = new Customer("Alex", "Bondar", "1212121212");
 
 
     @GET
@@ -62,7 +74,7 @@ public class CustomerRestService {
                                            @QueryParam("city") String city) {
 
 
-        return city == null? customerEJB.getCustomersByZipcode(zip): customerEJB.getCustomersByZipcode(zip, city);
+        return city == null ? customerEJB.getCustomersByZipcode(zip) : customerEJB.getCustomersByZipcode(zip, city);
     }
 
 
@@ -99,7 +111,7 @@ public class CustomerRestService {
     @GET
     @Path("/get_customer_text")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getCustomerText(){
+    public Response getCustomerText() {
         return Response.ok(demoCustomer.toString()).build();
     }
 
@@ -117,7 +129,7 @@ public class CustomerRestService {
 
     @GET
     @Path("/get_default_media")
-    public String getDefaultMediaType(@Context HttpHeaders httpHeaders){
+    public String getDefaultMediaType(@Context HttpHeaders httpHeaders) {
         List<MediaType> types = httpHeaders.getAcceptableMediaTypes();
         return types.get(0).toString();
     }

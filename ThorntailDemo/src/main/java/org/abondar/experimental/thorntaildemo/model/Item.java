@@ -1,6 +1,11 @@
 package org.abondar.experimental.thorntaildemo.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -14,18 +19,19 @@ public class Item implements Serializable {
     protected Long id;
 
     @NotNull
-    @Column(name="title",nullable = false,updatable = false)
+    @Column(name = "title", nullable = false, updatable = false)
     protected String title;
 
     protected Float price;
 
-    @Size(min = 10,max=2000)
+    @Size(min = 10, max = 2000)
     @Column(length = 2000)
     protected String description;
 
     protected String currency;
 
-    public Item(){}
+    public Item() {
+    }
 
     public Item(String title, Float price, String description) {
         this.title = title;

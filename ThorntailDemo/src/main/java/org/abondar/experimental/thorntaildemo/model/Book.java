@@ -4,7 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +27,7 @@ import java.util.Date;
         @AttributeOverride(name = "description", column = @Column(name = "book_description"))
 })
 @JsonRootName("book")
-@JsonIgnoreProperties(value = { "version" })
+@JsonIgnoreProperties(value = {"version"})
 public class Book extends Item implements Serializable {
 
     @NotNull
@@ -150,7 +157,7 @@ public class Book extends Item implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString()+"Book{" +
+        return super.toString() + "Book{" +
                 "number='" + number + '\'' +
                 ", numberOfPages=" + numberOfPages +
                 ", publisher='" + publisher + '\'' +
